@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.0.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.accolite</groupId>
+	<artifactId>opportunitiesportal</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Opportunities Portal</name>
+	<description>Bridging Project for Morgan Stanley</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<spring-security.version>5.0.6.RELEASE</spring-security.version>
+    	<spring.version>5.0.6.RELEASE</spring.version>
+		<jackson.version>2.9.8</jackson.version>
+		<postgres.version>42.1.4</postgres.version>
+		<cglib.version>2.2.2</cglib.version>
+		<jjwt.version>0.9.1</jjwt.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<dependency>
+    		<groupId>org.springframework</groupId>
+    		<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-mail</artifactId>
+    		<version>2.3.0.RELEASE</version>
+		</dependency>
+		
+		
+		<!-- Logging -->
+    
+   	<dependency>
+    	<groupId>org.apache.logging.log4j</groupId>
+    	<artifactId>log4j-api</artifactId>
+    	<version>2.9.1</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.logging.log4j</groupId>
+    	<artifactId>log4j-core</artifactId>
+    	<version>2.9.1</version>
+	</dependency>
+	
+	<!-- Mail -->
+	<dependency>
+    		<groupId>javax.mail</groupId>
+    		<artifactId>javax.mail-api</artifactId>
+    		<version>1.6.2</version>
+		</dependency>
+		
+		
+	<!-- Devtools for hot refresh -->
+	<dependency>
+    	<groupId>org.springframework.boot</groupId>
+    	<artifactId>spring-boot-devtools</artifactId>
+    	<version>2.3.0.RELEASE</version>
+	</dependency>
+	
+	
+	
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
