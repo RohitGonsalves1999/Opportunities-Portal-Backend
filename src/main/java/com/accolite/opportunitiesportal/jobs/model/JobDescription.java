@@ -22,8 +22,8 @@ public class JobDescription {
 	int openings;
 	Date postedOn; 
 	int postedBy;
-	int lastUpdated;
-   	Date lastUpdatedBy ;
+	Date lastUpdated;
+   	int lastUpdatedBy ;
 	String description;
 	
 	
