@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
@@ -32,6 +33,11 @@ public class JobController {
 	@GetMapping("/getDropDownItems")
 	public Map<String, List<DropDownItem>> getDropDownItems() {
 		return jobsService.getAttributes();
+	}
+	
+	@GetMapping("/getDropDownMap")
+	public Map<String,Map<Integer, String>> getAttributesMap(){
+		return jobsService.getAttributesMap();
 	}
 	
 	
@@ -56,6 +62,16 @@ public class JobController {
 	@PutMapping("/updateJobDescription")
 	public  JobDescriptionWithSkills updateJobDescription(@RequestBody JobDescriptionWithSkills desc) {
 		return jobsService.updateJobDescriptionWithSkills(desc);
+	}
+	
+	@GetMapping("/deleteJobDescription/{id}")
+	public void deleteJobDescription(@PathVariable int id) {
+		jobsService.deleteJobDescription(id);
+	}
+	
+	@GetMapping("/jobInsights")
+	public Map<String, ChartDataObject> getInsightMap(){
+		return jobsService.getInsightMap();
 	}
 
 }

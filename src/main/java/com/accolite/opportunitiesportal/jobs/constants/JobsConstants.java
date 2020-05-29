@@ -14,6 +14,9 @@ public interface JobsConstants {
 	public static final String JOB_ID = "jobId";
 	public static final String SKILL_ID = "skillId";
 	
+	public static final String CHART_OBJECT_NAME = "name";
+	public static final String CHART_OBJECT_VALUE = "count";
+	
 	public static final String[] ATTRIBUTES_LIST = { 
 			SKILLS, 
 			HIRING_MANAGERS, 

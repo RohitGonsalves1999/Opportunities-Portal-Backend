@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -18,9 +20,14 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.accolite.opportunitiesportal.jobs.constants.JobDescriptionColumnNames;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
+import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
+import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
+import com.accolite.opportunitiesportal.jobs.queries.InsightQueries;
 import com.accolite.opportunitiesportal.jobs.queries.JobsQueries;
+import com.accolite.opportunitiesportal.jobs.rowmapper.ChartObjectMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
 
 @Repository
@@ -115,6 +122,10 @@ JdbcTemplate jdbcTemplate;
 	public void deleteSkillsByJd(int id) {
 		jdbcTemplate.update(JobsQueries.DELETE_SKILLS_BY_JD, id);
 	}
+	
+	public void deleteJobDescription(int id) {
+		jdbcTemplate.update(JobsQueries.DELETE_JOB_DESCRIPTION_BY_ID, id);
+	}
 
 
 	public JobDescription findById(int id) {
@@ -127,6 +138,56 @@ JdbcTemplate jdbcTemplate;
 		return jdbcTemplate.query(JobsQueries.GET_SKILLSET_BY_JOB_ID, new Object[] { id }, (ResultSet rs,int rowNum) -> {
 			return rs.getInt("skillid");
 		});
+	}
+	
+	public ChartDataObject getSkillCounts() {
+		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_SKILL_COUNT, new ChartObjectMapper());
+		System.out.println(objects.size());
+		return constructChartDataObject(objects);
+	}
+	
+	
+	public ChartDataObject getLocationCounts() {
+		List<ChartObject> objects = jdbcTemplate.query(
+				InsightQueries.FETCH_INSIGHT(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
+				, new ChartObjectMapper());
+		return constructChartDataObject(objects);
+	}
+	
+	
+	public ChartDataObject getHiringManagerCCounts() {
+		List<ChartObject> objects = jdbcTemplate.query(
+				InsightQueries.FETCH_INSIGHT(
+						JobsConstants.HIRING_MANAGERS, JobsConstants.HIRING_MANAGERS), 
+						new ChartObjectMapper()
+						);
+		return constructChartDataObject(objects);
+	}
+	
+	public ChartDataObject getEmploymentTypeCounts() {
+		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
+		return constructChartDataObject(objects);
+	}
+	
+	public ChartDataObject getProfileCounts() {
+		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(
+				JobsConstants.PROFILE, 
+				JobsConstants.PROFILE
+				), new ChartObjectMapper());
+		
+		
+		return constructChartDataObject(objects);
+	}
+	
+	private ChartDataObject constructChartDataObject(List<ChartObject> objects) {
+		
+		List<Integer> values = new ArrayList<>();
+		List<String> labels = new ArrayList<>();
+		
+		values.addAll(objects.stream().map(x -> x.getValue()).collect(Collectors.toList()));
+		labels.addAll(objects.stream().map(x -> x.getName()).collect(Collectors.toList()));
+		
+		return new ChartDataObject(values, labels);
 	}
 
 }

@@ -40,7 +40,7 @@ public class JobsQueries {
 	
 	public static final String GET_ALL_JOB_DESCRIPTIONS = 
 			"SELECT *\r\n" + 
-					"	FROM jobdescription";
+					"	FROM jobdescription where isActive = true";
 	
 	public static final String UPDATE_JOB_DESCRIPTIONS = "UPDATE jobdescription\r\n" + 
 			"	SET profile=?, \r\n" + 
@@ -56,7 +56,7 @@ public class JobsQueries {
 			"	WHERE id = ?;";
 	
 	public static final String DELETE_JOB_DESCRIPTION_BY_ID = 
-			"DELETE FROM jobdescription\r\n" + 
+			"update jobdescription set isActive = false\r\n" + 
 			"	WHERE id = ?;";
 }
 

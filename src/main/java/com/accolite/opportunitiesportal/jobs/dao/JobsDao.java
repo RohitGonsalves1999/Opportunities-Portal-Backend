@@ -1,6 +1,6 @@
 package com.accolite.opportunitiesportal.jobs.dao;
 
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
+import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
+import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
@@ -41,6 +43,21 @@ public class JobsDao {
 		
 		for(String i : JobsConstants.ATTRIBUTES_LIST) {
 			attributeMap.put(i, jdbcTemplate.query(JobsQueries.getAttribute(i), new AttributeMapper()));
+		}
+		
+		return attributeMap;
+	}
+	
+	public Map<String,Map<Integer, String>> getAttributesMap(){
+		Map<String, Map<Integer, String>> attributeMap = new HashMap<>();
+		
+		for(String i : JobsConstants.ATTRIBUTES_LIST) {
+			List<DropDownItem> attributeList = jdbcTemplate.query(JobsQueries.getAttribute(i), new AttributeMapper());
+			Map<Integer, String> attributeSubMap = new HashMap<>();
+			for(DropDownItem it : attributeList) {
+				attributeSubMap.put(it.getId(), it.getName());
+			}
+			attributeMap.put(i, attributeSubMap);
 		}
 		
 		return attributeMap;
@@ -78,10 +95,28 @@ public class JobsDao {
 		return resultList;
 	}
 	
+	public Map<String, ChartDataObject> getInsightMap(){
+		Map<String, ChartDataObject> chartMap = new HashMap<>();
+		chartMap.put(JobsConstants.SKILLS, jobsRepository.getSkillCounts());
+		chartMap.put(JobsConstants.LOCATION, jobsRepository.getLocationCounts());
+		chartMap.put(JobsConstants.HIRING_MANAGERS, jobsRepository.getHiringManagerCCounts());
+		chartMap.put(JobsConstants.PROFILE, jobsRepository.getProfileCounts());
+		chartMap.put(JobsConstants.EMPLOYMENT_TYPE	, jobsRepository.getEmploymentTypeCounts());
+		return chartMap;
+	}
+	
 	public void updateJobDescription(JobDescriptionWithSkills desc) {
 		jobsRepository.updateJobDescription(desc.getJobDescription());
 		jobsRepository.deleteSkillsByJd(desc.getJobDescription().getId());
 		jobsRepository.saveJobDescriptionSkills(desc.getJobDescription().getId(), desc.getSkillList());
 	}
+
+
+	public void deleteJobDescription(int id) {
+		jobsRepository.deleteJobDescription(id);
+		
+	}
+	
+	
 	
 }
