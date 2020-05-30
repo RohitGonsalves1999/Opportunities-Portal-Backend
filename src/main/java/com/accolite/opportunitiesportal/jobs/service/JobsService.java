@@ -47,7 +47,7 @@ public class JobsService {
 		JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
 		JobDescription  jobDescription = jobsDao.findJobDescriptionbyId(id);
 		descriptionWithSkills.setJobDescription(jobDescription);
-		
+		descriptionWithSkills.setSkillList(jobsDao.getSkillsById(jobDescription.getId()));
 		
 		return descriptionWithSkills;
 	}
@@ -76,6 +76,11 @@ public class JobsService {
 
 	public void deleteJobDescription(int id) {
 		jobsDao.deleteJobDescription(id);
+		
+	}
+	
+	public void resolveJobDescription(int id) {
+		jobsDao.resolveJobDescription(id);
 		
 	}
 	

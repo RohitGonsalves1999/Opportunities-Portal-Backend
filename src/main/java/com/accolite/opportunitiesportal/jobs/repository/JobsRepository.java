@@ -126,6 +126,12 @@ JdbcTemplate jdbcTemplate;
 	public void deleteJobDescription(int id) {
 		jdbcTemplate.update(JobsQueries.DELETE_JOB_DESCRIPTION_BY_ID, id);
 	}
+	
+	
+	
+	public void markSkillInactive(int id) {
+		jdbcTemplate.update(JobsQueries.MARK_SKILL_INACTIVE_BY_JD, id);
+	}
 
 
 	public JobDescription findById(int id) {

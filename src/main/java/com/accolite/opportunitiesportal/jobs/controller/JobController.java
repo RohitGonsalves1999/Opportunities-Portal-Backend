@@ -58,6 +58,12 @@ public class JobController {
 		return jobsService.findJobDescriptionbyId(id);
 	}
 	
+	@GetMapping("/resolveJobDescription?{id}")
+	public void resolveJobDescription(@PathVariable int id) {
+		jobsService.resolveJobDescription(id);
+		
+	}
+	
 	
 	@PutMapping("/updateJobDescription")
 	public  JobDescriptionWithSkills updateJobDescription(@RequestBody JobDescriptionWithSkills desc) {

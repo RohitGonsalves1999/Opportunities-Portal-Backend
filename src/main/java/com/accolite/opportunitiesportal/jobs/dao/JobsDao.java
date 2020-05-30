@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
-import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
@@ -95,6 +94,11 @@ public class JobsDao {
 		return resultList;
 	}
 	
+	
+	public List<Integer> getSkillsById (int id){
+		return jobsRepository.getSkillListById(id);
+	}
+	
 	public Map<String, ChartDataObject> getInsightMap(){
 		Map<String, ChartDataObject> chartMap = new HashMap<>();
 		chartMap.put(JobsConstants.SKILLS, jobsRepository.getSkillCounts());
@@ -113,6 +117,13 @@ public class JobsDao {
 
 
 	public void deleteJobDescription(int id) {
+		jobsRepository.deleteJobDescription(id);
+		jobsRepository.markSkillInactive(id);
+		
+	}
+	
+	
+	public void resolveJobDescription(int id) {
 		jobsRepository.deleteJobDescription(id);
 		
 	}

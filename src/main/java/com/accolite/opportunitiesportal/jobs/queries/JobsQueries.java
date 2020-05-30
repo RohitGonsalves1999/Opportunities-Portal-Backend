@@ -38,6 +38,11 @@ public class JobsQueries {
 			"DELETE FROM jobpostskillset\r\n" + 
 			"	WHERE jobId = ?;";
 	
+	public static final String MARK_SKILL_INACTIVE_BY_JD = 
+			"UPDATE jobpostskillset as js\r\n" + 
+			"	SET isactive=false\r\n" + 
+			"	WHERE js.jobid = ?;";
+	
 	public static final String GET_ALL_JOB_DESCRIPTIONS = 
 			"SELECT *\r\n" + 
 					"	FROM jobdescription where isActive = true";
