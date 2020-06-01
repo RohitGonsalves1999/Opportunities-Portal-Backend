@@ -3,6 +3,7 @@ package com.accolite.opportunitiesportal.jobs.constants;
 public interface JobsConstants {
 	
 	public static final String SKILLS = "skillSet";
+	public static final String RESOLVED_SKILLS = "resolvedSkillSet";
 	public static final String HIRING_MANAGERS = "hiringManager";
 	public static final String EMPLOYMENT_TYPE = "employmentType";
 	public static final String LOCATION = "locationdetails";

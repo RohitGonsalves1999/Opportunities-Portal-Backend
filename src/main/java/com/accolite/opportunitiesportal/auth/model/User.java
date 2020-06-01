@@ -5,16 +5,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
-
-	int id;
-	String email;
-	String name;
-	String firstName;
-	String lastName;
 	
+	
+    private int id;
+
+    private String name;
+    
+    private String email;
+    
+    private String primary_contact_num;
+
+    private String imageUrl;
+
+    private String hashed_password;
+
+
+    private AuthProvider provider;
+
+
+    private String salt;
+
 }

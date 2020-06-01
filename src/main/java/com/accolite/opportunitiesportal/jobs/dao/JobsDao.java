@@ -106,26 +106,29 @@ public class JobsDao {
 		chartMap.put(JobsConstants.HIRING_MANAGERS, jobsRepository.getHiringManagerCCounts());
 		chartMap.put(JobsConstants.PROFILE, jobsRepository.getProfileCounts());
 		chartMap.put(JobsConstants.EMPLOYMENT_TYPE	, jobsRepository.getEmploymentTypeCounts());
+		chartMap.put(JobsConstants.RESOLVED_SKILLS, jobsRepository.getResolvedSkillCounts());
 		return chartMap;
 	}
 	
-	public void updateJobDescription(JobDescriptionWithSkills desc) {
+	public boolean updateJobDescription(JobDescriptionWithSkills desc) {
 		jobsRepository.updateJobDescription(desc.getJobDescription());
 		jobsRepository.deleteSkillsByJd(desc.getJobDescription().getId());
 		jobsRepository.saveJobDescriptionSkills(desc.getJobDescription().getId(), desc.getSkillList());
+		return true;
 	}
 
 
-	public void deleteJobDescription(int id) {
+	public boolean deleteJobDescription(int id) {
 		jobsRepository.deleteJobDescription(id);
 		jobsRepository.markSkillInactive(id);
+		return true;
 		
 	}
 	
 	
-	public void resolveJobDescription(int id) {
+	public boolean resolveJobDescription(int id) {
 		jobsRepository.deleteJobDescription(id);
-		
+		return true;
 	}
 	
 	

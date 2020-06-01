@@ -74,13 +74,15 @@ public class JobsService {
 	}
 
 
-	public void deleteJobDescription(int id) {
+	public boolean deleteJobDescription(int id) {
 		jobsDao.deleteJobDescription(id);
+		return true;
 		
 	}
 	
-	public void resolveJobDescription(int id) {
+	public boolean resolveJobDescription(int id) {
 		jobsDao.resolveJobDescription(id);
+		return true;
 		
 	}
 	

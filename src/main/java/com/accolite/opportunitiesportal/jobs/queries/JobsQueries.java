@@ -43,6 +43,11 @@ public class JobsQueries {
 			"	SET isactive=false\r\n" + 
 			"	WHERE js.jobid = ?;";
 	
+	public static final String MARK_SKILL_ACTIVE_BY_JD = 
+			"UPDATE jobpostskillset as js\r\n" + 
+			"	SET isactive=true\r\n" + 
+			"	WHERE js.jobid = ?;";
+	
 	public static final String GET_ALL_JOB_DESCRIPTIONS = 
 			"SELECT *\r\n" + 
 					"	FROM jobdescription where isActive = true";

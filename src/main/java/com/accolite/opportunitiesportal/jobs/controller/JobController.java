@@ -44,7 +44,7 @@ public class JobController {
 	@PostMapping("/addJobDescription")
 	public JobDescriptionWithSkills addJobDescription(@RequestBody JobDescriptionWithSkills desc) {
 		
-		System.out.println("Description At controller:" + desc.getJobDescription());
+		
 		return jobsService.addJobDescription(desc);
 	}
 	
@@ -58,9 +58,10 @@ public class JobController {
 		return jobsService.findJobDescriptionbyId(id);
 	}
 	
-	@GetMapping("/resolveJobDescription?{id}")
-	public void resolveJobDescription(@PathVariable int id) {
+	@GetMapping("/resolveJobDescription/{id}")
+	public boolean resolveJobDescription(@PathVariable int id) {
 		jobsService.resolveJobDescription(id);
+		return true;
 		
 	}
 	
@@ -71,8 +72,9 @@ public class JobController {
 	}
 	
 	@GetMapping("/deleteJobDescription/{id}")
-	public void deleteJobDescription(@PathVariable int id) {
+	public boolean deleteJobDescription(@PathVariable int id) {
 		jobsService.deleteJobDescription(id);
+		return true;
 	}
 	
 	@GetMapping("/jobInsights")

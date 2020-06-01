@@ -153,6 +153,12 @@ JdbcTemplate jdbcTemplate;
 	}
 	
 	
+	public ChartDataObject getResolvedSkillCounts() {
+		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_RESOLVED_SKILL_COUNT, new ChartObjectMapper());
+		System.out.println(objects.size());
+		return constructChartDataObject(objects);
+	}
+	
 	public ChartDataObject getLocationCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(
 				InsightQueries.FETCH_INSIGHT(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
