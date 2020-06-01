@@ -1,7 +1,6 @@
 package com.accolite.opportunitiesportal.jobs.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
-import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
@@ -30,56 +27,38 @@ public class JobController {
 		return "HELLO WORLD";
 	}
 	
-	@GetMapping("/getDropDownItems")
-	public Map<String, List<DropDownItem>> getDropDownItems() {
-		return jobsService.getAttributes();
-	}
-	
-	@GetMapping("/getDropDownMap")
-	public Map<String,Map<Integer, String>> getAttributesMap(){
-		return jobsService.getAttributesMap();
-	}
-	
-	
-	@PostMapping("/addJobDescription")
+	@PostMapping("/JobDescription")
 	public JobDescriptionWithSkills addJobDescription(@RequestBody JobDescriptionWithSkills desc) {
-		
 		
 		return jobsService.addJobDescription(desc);
 	}
 	
-	@GetMapping("/getAllJobDescriptions/")
+	@GetMapping("/JobDescription/")
 	public List<JobDescriptionWithSkills> findJobDesccriptionById() {
 		return jobsService.getAllJobDescriptions();
 	}
 	
-	@GetMapping("/getAllJobDescriptions/{id}")
+	@GetMapping("/JobDescription/{id}")
 	public JobDescriptionWithSkills findJobDesccriptionById(@PathVariable int id) {
 		return jobsService.findJobDescriptionbyId(id);
 	}
 	
-	@GetMapping("/resolveJobDescription/{id}")
+	@GetMapping("/resolve/{id}")
 	public boolean resolveJobDescription(@PathVariable int id) {
 		jobsService.resolveJobDescription(id);
 		return true;
 		
 	}
 	
-	
-	@PutMapping("/updateJobDescription")
+	@PutMapping("/JobDescription")
 	public  JobDescriptionWithSkills updateJobDescription(@RequestBody JobDescriptionWithSkills desc) {
 		return jobsService.updateJobDescriptionWithSkills(desc);
 	}
 	
-	@GetMapping("/deleteJobDescription/{id}")
+	@GetMapping("/delete/{id}")
 	public boolean deleteJobDescription(@PathVariable int id) {
 		jobsService.deleteJobDescription(id);
 		return true;
-	}
-	
-	@GetMapping("/jobInsights")
-	public Map<String, ChartDataObject> getInsightMap(){
-		return jobsService.getInsightMap();
 	}
 
 }

@@ -11,17 +11,16 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.util.SerializationUtils;
 
 public class SessionCrypt {
 
 	private String KEY = "WGwR_gQidWKx_5Vu";
-//	private static Logger log = Logger.getLogger(SessionCrypt.class);
 	private static final Logger log=LoggerFactory.getLogger(SessionCrypt.class);
-    public String encrypt(String userId) {
+    public String encrypt(String userId){
     	try {
             Cipher aes = createChiper(Cipher.ENCRYPT_MODE);
             byte[] bytes = SerializationUtils.serialize(userId);
@@ -34,7 +33,7 @@ public class SessionCrypt {
         return null;
     }
     
-    public String decrypt(String session) {
+    public String decrypt(String session){
     	if(session != null && session.length() >= 40) {
 	        try {
 	            String signature = session.substring(session.length() - 40);

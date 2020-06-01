@@ -1,6 +1,8 @@
 package com.accolite.opportunitiesportal.jobs.constants;
 
-public interface JobDescriptionColumnNames {
+public class JobDescriptionColumnNames {
+	
+	private JobDescriptionColumnNames() {}
 
 	public static final String ID = "id";
 	public static final String PROFILE = "profile";

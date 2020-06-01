@@ -16,11 +16,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
 
+import com.accolite.opportunitiesportal.jobs.dao.JobsAttributeDao;
 import com.accolite.opportunitiesportal.jobs.dao.JobsDao;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
+import com.accolite.opportunitiesportal.jobs.service.JobAttributeService;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
 import junit.framework.Assert;
@@ -33,8 +35,14 @@ class JobsServiceTest {
 	@InjectMocks
 	public JobsService jobsService;
 	
+	@InjectMocks
+	public JobAttributeService attributeService;
+	
 	@Mock
 	public JobsDao jobsDao;
+	
+	@Mock
+	public JobsAttributeDao attrDao;
 	
 	
 	private static Map<String, List<DropDownItem>>  dropDownAttributesList = new HashMap<>();
@@ -54,14 +62,14 @@ class JobsServiceTest {
 
 	@Test
 	void testGetAttributes() {
-		when(jobsDao.getAttributes()).thenReturn(dropDownAttributesList);
-		Assert.assertEquals(dropDownAttributesList, jobsService.getAttributes());
+		when(attrDao.getAttributes()).thenReturn(dropDownAttributesList);
+		Assert.assertEquals(dropDownAttributesList, attributeService.getAttributes());
 	}
 
 	@Test
 	void testGetAttributesMap() {
-		when(jobsDao.getAttributesMap()).thenReturn(attributeMap);
-		Assert.assertEquals(attributeMap, jobsService.getAttributesMap());
+		when(attrDao.getAttributesMap()).thenReturn(attributeMap);
+		Assert.assertEquals(attributeMap, attributeService.getAttributesMap());
 	}
 
 	@Test
@@ -107,8 +115,8 @@ class JobsServiceTest {
 
 	@Test
 	void testGetInsightMap() {
-		when(jobsDao.getInsightMap()).thenReturn(insightObject);
-		Assert.assertEquals(insightObject, jobsService.getInsightMap());
+		when(attrDao.getInsightMap()).thenReturn(insightObject);
+		Assert.assertEquals(insightObject, attributeService.getInsightMap());
 	}
 
 }

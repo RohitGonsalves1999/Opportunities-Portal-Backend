@@ -1,6 +1,5 @@
 package com.accolite.opportunitiesportal.auth.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,11 +16,11 @@ public class User {
     
     private String email;
     
-    private String primary_contact_num;
+    private String primaryContactNum;
 
     private String imageUrl;
 
-    private String hashed_password;
+    private String hashedPassword;
 
 
     private AuthProvider provider;

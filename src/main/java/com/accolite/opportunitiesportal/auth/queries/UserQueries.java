@@ -2,6 +2,8 @@ package com.accolite.opportunitiesportal.auth.queries;
 
 public class UserQueries {
 	
+	private UserQueries() {}
+	
 	public static final String GET_USER_BY_EMAIL = "Select * from userdetails where email = ?";
 	
 	public static final String GET_USER_BY_ID = "Select * from userdetails where id = ?";

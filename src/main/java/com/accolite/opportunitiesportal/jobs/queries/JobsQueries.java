@@ -2,6 +2,7 @@ package com.accolite.opportunitiesportal.jobs.queries;
 
 public class JobsQueries {
 	
+	private JobsQueries() {}
 	
 	private static final String ATTRIBUTE_SKELETON = "select * from %s";
 	

@@ -1,5 +1,7 @@
 package com.accolite.opportunitiesportal;
 
+import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,16 +20,16 @@ import com.accolite.opportunitiesportal.auth.model.SessionUser;
 import com.accolite.opportunitiesportal.auth.model.User;
 import com.accolite.opportunitiesportal.auth.model.UserConnection;
 import com.accolite.opportunitiesportal.auth.model.UserDetails;
+import com.accolite.opportunitiesportal.jobs.controller.JobAttributesController;
 import com.accolite.opportunitiesportal.jobs.controller.JobController;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
+import com.accolite.opportunitiesportal.jobs.service.JobAttributeService;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 import com.accolite.opportunitiesportal.testutils.PojoTestUtils;
-
-import static org.mockito.Mockito.when;
 
 import junit.framework.Assert;
 
@@ -38,9 +40,15 @@ class OpportunitiesPortalApplicationTests {
 	@InjectMocks
 	private JobController jobController;
 	
+	@InjectMocks
+	private JobAttributesController jaController;
+	
 	
 	@Mock
 	private JobsService jobsService;
+	
+	
+	@Mock JobAttributeService attirbuteService;
 	
 	
 	private static Map<String, List<DropDownItem>>  dropDownAttributesList = new HashMap<>();
@@ -123,13 +131,13 @@ class OpportunitiesPortalApplicationTests {
 	
 	@Test
 	public void testAttributeList() {
-		when(jobsService.getAttributes()).thenReturn(dropDownAttributesList);
-		Assert.assertEquals(dropDownAttributesList, jobController.getDropDownItems());
+		when(attirbuteService.getAttributes()).thenReturn(dropDownAttributesList);
+		Assert.assertEquals(dropDownAttributesList, jaController.getDropDownItems());
 	}
 	
 	@Test
 	public void testAttributeMap() {
-		when(jobsService.getAttributesMap()).thenReturn(attributeMap);
-		Assert.assertEquals(attributeMap, jobController.getAttributesMap());
+		when(attirbuteService.getAttributesMap()).thenReturn(attributeMap);
+		Assert.assertEquals(attributeMap, jaController.getAttributesMap());
 	}
 }

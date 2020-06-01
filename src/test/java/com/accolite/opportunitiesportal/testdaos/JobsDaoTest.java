@@ -1,7 +1,5 @@
 package com.accolite.opportunitiesportal.testdaos;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -20,6 +18,7 @@ import org.springframework.boot.test.context.TestComponent;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
+import com.accolite.opportunitiesportal.jobs.dao.JobsAttributeDao;
 import com.accolite.opportunitiesportal.jobs.dao.JobsDao;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
@@ -27,7 +26,6 @@ import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
-import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
 import junit.framework.Assert;
 
@@ -38,6 +36,9 @@ class JobsDaoTest {
 	
 	@InjectMocks
 	JobsDao dao;
+	
+	@InjectMocks
+	JobsAttributeDao attrDao;
 	
 	@Mock
 	JobsRepository repo;
@@ -89,7 +90,7 @@ class JobsDaoTest {
 		when(repo.getItemList(JobsConstants.PROFILE)).thenReturn(ddItems);
 		when(repo.getItemList(JobsConstants.SKILLS)).thenReturn(ddItems);
 		
-		Assert.assertEquals(ddItems.size(), dao.getAttributes().get(JobsConstants.LOCATION).size());
+		Assert.assertEquals(ddItems.size(), attrDao.getAttributes().get(JobsConstants.LOCATION).size());
 	}
 
 	@Test
@@ -100,7 +101,7 @@ class JobsDaoTest {
 		when(repo.getItemList(JobsConstants.PROFILE)).thenReturn(ddItems);
 		when(repo.getItemList(JobsConstants.SKILLS)).thenReturn(ddItems);
 		
-		Assert.assertEquals(ddItems.get(0).getName(), dao.getAttributesMap().get(JobsConstants.LOCATION).get(1));
+		Assert.assertEquals(ddItems.get(0).getName(), attrDao.getAttributesMap().get(JobsConstants.LOCATION).get(1));
 	}
 
 	@Test
@@ -142,12 +143,12 @@ class JobsDaoTest {
 		when(repo.getResolvedSkillCounts()).thenReturn(mockObjects);
 		when(repo.getEmploymentTypeCounts()).thenReturn(mockObjects);
 		
-		Assert.assertEquals(mockLabels.size(), dao.getInsightMap().get(JobsConstants.LOCATION).getLabels().size());
-		Assert.assertEquals(mockLabels.size(), dao.getInsightMap().get(JobsConstants.HIRING_MANAGERS).getLabels().size());
-		Assert.assertEquals(mockLabels.size(), dao.getInsightMap().get(JobsConstants.SKILLS).getLabels().size());
-		Assert.assertEquals(mockLabels.size(), dao.getInsightMap().get(JobsConstants.PROFILE).getLabels().size());
-		Assert.assertEquals(mockLabels.size(), dao.getInsightMap().get(JobsConstants.EMPLOYMENT_TYPE).getLabels().size());
-		Assert.assertEquals(mockLabels.size(), dao.getInsightMap().get(JobsConstants.RESOLVED_SKILLS).getLabels().size());
+		Assert.assertEquals(mockLabels.size(), attrDao.getInsightMap().get(JobsConstants.LOCATION).getLabels().size());
+		Assert.assertEquals(mockLabels.size(), attrDao.getInsightMap().get(JobsConstants.HIRING_MANAGERS).getLabels().size());
+		Assert.assertEquals(mockLabels.size(), attrDao.getInsightMap().get(JobsConstants.SKILLS).getLabels().size());
+		Assert.assertEquals(mockLabels.size(), attrDao.getInsightMap().get(JobsConstants.PROFILE).getLabels().size());
+		Assert.assertEquals(mockLabels.size(), attrDao.getInsightMap().get(JobsConstants.EMPLOYMENT_TYPE).getLabels().size());
+		Assert.assertEquals(mockLabels.size(), attrDao.getInsightMap().get(JobsConstants.RESOLVED_SKILLS).getLabels().size());
 	}
 
 	@Test

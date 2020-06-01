@@ -1,13 +1,6 @@
 package com.accolite.opportunitiesportal.testcontrollers;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +15,6 @@ import com.accolite.opportunitiesportal.auth.model.SessionStatus;
 import com.accolite.opportunitiesportal.auth.model.SessionUser;
 import com.accolite.opportunitiesportal.auth.model.UserDetails;
 import com.accolite.opportunitiesportal.auth.repository.UserRepository;
-import com.accolite.opportunitiesportal.jobs.dao.JobsDao;
-import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
-import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
-import com.accolite.opportunitiesportal.jobs.model.JobDescription;
-import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
-import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
 import junit.framework.Assert;
 

@@ -1,16 +1,10 @@
 package com.accolite.opportunitiesportal.testrepository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Test;
-
-
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
 
-import java.security.KeyStore.Entry.Attribute;
-import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,12 +21,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
-import com.accolite.opportunitiesportal.jobs.dao.JobsDao;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
@@ -42,7 +34,6 @@ import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
 import com.accolite.opportunitiesportal.jobs.rowmapper.AttributeMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.ChartObjectMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
-import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
 import junit.framework.Assert;
 

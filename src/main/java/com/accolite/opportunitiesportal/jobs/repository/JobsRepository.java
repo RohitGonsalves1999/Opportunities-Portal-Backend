@@ -6,13 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.sql.DataSource;
-
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import com.accolite.opportunitiesportal.jobs.constants.JobDescriptionColumnNames;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
-import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
@@ -35,13 +30,11 @@ import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
 @Repository
 public class JobsRepository {
 	
+	private static final org.slf4j.Logger logger =LoggerFactory.getLogger(JobsRepository.class);
+	
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
-
-	@Autowired
-	Logger logger;
 	
 	
 	
@@ -52,7 +45,7 @@ public class JobsRepository {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 			PreparedStatement ps  = con.prepareStatement(JobsQueries.SAVE_JOB_DESCRIPTION, Statement.RETURN_GENERATED_KEYS);
-			System.out.println("Description:" + desc);
+			logger.info(String.format("Description: %s",  desc.toString()));
 			ps.setInt(1, desc.getProfile());
 			ps.setString(2, desc.getDescription());
 			ps.setInt(3, desc.getLocation());
@@ -144,52 +137,47 @@ public class JobsRepository {
 	
 	
 	public List<Integer> getSkillListById(int id){
-		return jdbcTemplate.query(JobsQueries.GET_SKILLSET_BY_JOB_ID, new Object[] { id }, (ResultSet rs,int rowNum) -> {
-			return rs.getInt("skillid");
-		});
+		return jdbcTemplate.query(JobsQueries.GET_SKILLSET_BY_JOB_ID, new Object[] { id }, (ResultSet rs,int rowNum) -> 
+			rs.getInt("skillid")
+		);
 	}
 	
 	public List<ChartObject> getSkillCounts() {
-		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_SKILL_COUNT, new ChartObjectMapper());
-		return objects;
+		return jdbcTemplate.query(InsightQueries.FETCH_SKILL_COUNT, new ChartObjectMapper());
 	}
 	
 	
 	public List<ChartObject> getResolvedSkillCounts() {
-		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_RESOLVED_SKILL_COUNT, new ChartObjectMapper());
-		return objects;
+		return jdbcTemplate.query(InsightQueries.FETCH_RESOLVED_SKILL_COUNT, new ChartObjectMapper());
 	}
 	
 	public List<ChartObject> getLocationCounts() {
-		List<ChartObject> objects = jdbcTemplate.query(
+		
+		return jdbcTemplate.query(
 				InsightQueries.FETCH_INSIGHT(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
 				, new ChartObjectMapper());
-		return objects;
 	}
 	
 	
 	public List<ChartObject> getHiringManagerCCounts() {
-		List<ChartObject> objects = jdbcTemplate.query(
+		
+		return jdbcTemplate.query(
 				InsightQueries.FETCH_INSIGHT(
 						JobsConstants.HIRING_MANAGERS, JobsConstants.HIRING_MANAGERS), 
 						new ChartObjectMapper()
 						);
-		return objects;
 	}
 	
 	public List<ChartObject> getEmploymentTypeCounts() {
-		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
-		return objects;
+		return jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
 	}
 	
 	public List<ChartObject> getProfileCounts() {
-		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(
+		
+		return jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(
 				JobsConstants.PROFILE, 
 				JobsConstants.PROFILE
 				), new ChartObjectMapper());
-		
-		
-		return objects;
 	}
 	
 	public List<DropDownItem> getItemList(String i){

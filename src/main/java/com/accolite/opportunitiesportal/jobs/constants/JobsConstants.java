@@ -1,6 +1,8 @@
 package com.accolite.opportunitiesportal.jobs.constants;
 
-public interface JobsConstants {
+public class JobsConstants {
+	
+	private JobsConstants() {}
 	
 	public static final String SKILLS = "skillSet";
 	public static final String RESOLVED_SKILLS = "resolvedSkillSet";
