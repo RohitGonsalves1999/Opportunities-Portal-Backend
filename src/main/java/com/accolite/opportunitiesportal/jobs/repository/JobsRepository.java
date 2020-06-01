@@ -102,7 +102,7 @@ public class JobsRepository {
 	
 	public boolean updateJobDescription(JobDescription jobDescription) {
 		jdbcTemplate.update(JobsQueries.UPDATE_JOB_DESCRIPTIONS, 
-				
+				new Object [] {
 				jobDescription.getProfile(),
 				jobDescription.getDescription(),
 				jobDescription.getLocation(),
@@ -113,7 +113,7 @@ public class JobsRepository {
 				jobDescription.getPostedBy(),
 				jobDescription.getLastUpdated(),
 				jobDescription.getLastUpdatedBy(),
-				jobDescription.getId()
+				jobDescription.getId()}
 				);
 		
 		return true;
@@ -132,8 +132,8 @@ public class JobsRepository {
 	
 	
 	
-	public void markSkillInactive(int id) {
-		jdbcTemplate.update(JobsQueries.MARK_SKILL_INACTIVE_BY_JD, id);
+	public int markSkillInactive(int id) {
+		return jdbcTemplate.update(JobsQueries.MARK_SKILL_INACTIVE_BY_JD, id);
 	}
 
 
