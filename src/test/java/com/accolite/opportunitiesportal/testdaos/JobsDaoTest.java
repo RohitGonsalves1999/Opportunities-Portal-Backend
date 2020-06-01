@@ -71,15 +71,36 @@ class JobsDaoTest {
 	
 	public List<ChartObject> mockObjects = Arrays.asList(new ChartObject[] { new ChartObject("Mock Label 1", 1),
 			new ChartObject("Mock Label 2", 2)});
+	
+	public List<DropDownItem> ddItems = Arrays.asList(new DropDownItem[] { 
+			new DropDownItem(1,"DDItem 1"),
+			new DropDownItem(2,"DDItem 2")
+	});
+	
+	Map<String, List<DropDownItem>> ddListMap = new HashMap<>();
+	
+	Map<String, Map<Integer, String>> ddmapMap = new HashMap<>();
 
 	@Test
 	void testGetAttributes() {
-		fail("Not yet implemented");
+		when(repo.getItemList(JobsConstants.LOCATION)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.HIRING_MANAGERS)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.EMPLOYMENT_TYPE)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.PROFILE)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.SKILLS)).thenReturn(ddItems);
+		
+		Assert.assertEquals(ddItems.size(), dao.getAttributes().get(JobsConstants.LOCATION).size());
 	}
 
 	@Test
 	void testGetAttributesMap() {
-		fail("Not yet implemented");
+		when(repo.getItemList(JobsConstants.LOCATION)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.HIRING_MANAGERS)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.EMPLOYMENT_TYPE)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.PROFILE)).thenReturn(ddItems);
+		when(repo.getItemList(JobsConstants.SKILLS)).thenReturn(ddItems);
+		
+		Assert.assertEquals(ddItems.get(0).getName(), dao.getAttributesMap().get(JobsConstants.LOCATION).get(1));
 	}
 
 	@Test

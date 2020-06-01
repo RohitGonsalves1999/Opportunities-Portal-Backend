@@ -24,9 +24,11 @@ import com.accolite.opportunitiesportal.jobs.constants.JobDescriptionColumnNames
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
+import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.queries.InsightQueries;
 import com.accolite.opportunitiesportal.jobs.queries.JobsQueries;
+import com.accolite.opportunitiesportal.jobs.rowmapper.AttributeMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.ChartObjectMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
 
@@ -188,6 +190,10 @@ public class JobsRepository {
 		
 		
 		return objects;
+	}
+	
+	public List<DropDownItem> getItemList(String i){
+		return jdbcTemplate.query(JobsQueries.getAttribute(i), new AttributeMapper());
 	}
 	
 
