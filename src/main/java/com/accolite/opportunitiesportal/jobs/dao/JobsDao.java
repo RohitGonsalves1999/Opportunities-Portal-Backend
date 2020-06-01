@@ -1,6 +1,7 @@
 package com.accolite.opportunitiesportal.jobs.dao;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
+import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
@@ -24,14 +26,8 @@ import com.accolite.opportunitiesportal.jobs.rowmapper.AttributeMapper;
 @Repository
 public class JobsDao {
 
-	JdbcTemplate jdbcTemplate;
-	
-	
 	@Autowired
-	public JobsDao(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-	
+	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
 	JobsRepository jobsRepository;
@@ -68,8 +64,8 @@ public class JobsDao {
 		return jobsRepository.saveJobdescription(jobDescription);
 	}
 	
-	public void saveJobSkills(int jobId, List<Integer> skillList) {
-		jobsRepository.saveJobDescriptionSkills(jobId, skillList);
+	public int saveJobSkills(int jobId, List<Integer> skillList) {
+		return jobsRepository.saveJobDescriptionSkills(jobId, skillList);
 	}
 
 
@@ -101,12 +97,12 @@ public class JobsDao {
 	
 	public Map<String, ChartDataObject> getInsightMap(){
 		Map<String, ChartDataObject> chartMap = new HashMap<>();
-		chartMap.put(JobsConstants.SKILLS, jobsRepository.getSkillCounts());
-		chartMap.put(JobsConstants.LOCATION, jobsRepository.getLocationCounts());
-		chartMap.put(JobsConstants.HIRING_MANAGERS, jobsRepository.getHiringManagerCCounts());
-		chartMap.put(JobsConstants.PROFILE, jobsRepository.getProfileCounts());
-		chartMap.put(JobsConstants.EMPLOYMENT_TYPE	, jobsRepository.getEmploymentTypeCounts());
-		chartMap.put(JobsConstants.RESOLVED_SKILLS, jobsRepository.getResolvedSkillCounts());
+		chartMap.put(JobsConstants.SKILLS, constructChartDataObject(jobsRepository.getSkillCounts()));
+		chartMap.put(JobsConstants.LOCATION, constructChartDataObject(jobsRepository.getLocationCounts()));
+		chartMap.put(JobsConstants.HIRING_MANAGERS, constructChartDataObject(jobsRepository.getHiringManagerCCounts()));
+		chartMap.put(JobsConstants.PROFILE, constructChartDataObject(jobsRepository.getProfileCounts()));
+		chartMap.put(JobsConstants.EMPLOYMENT_TYPE	, constructChartDataObject(jobsRepository.getEmploymentTypeCounts()));
+		chartMap.put(JobsConstants.RESOLVED_SKILLS, constructChartDataObject(jobsRepository.getResolvedSkillCounts()));
 		return chartMap;
 	}
 	
@@ -131,6 +127,17 @@ public class JobsDao {
 		return true;
 	}
 	
+	
+	private ChartDataObject constructChartDataObject(List<ChartObject> objects) {
+		
+		List<Integer> values = new ArrayList<>();
+		List<String> labels = new ArrayList<>();
+		
+		values.addAll(objects.stream().map(x -> x.getValue()).collect(Collectors.toList()));
+		labels.addAll(objects.stream().map(x -> x.getName()).collect(Collectors.toList()));
+		
+		return new ChartDataObject(values, labels);
+	}
 	
 	
 }

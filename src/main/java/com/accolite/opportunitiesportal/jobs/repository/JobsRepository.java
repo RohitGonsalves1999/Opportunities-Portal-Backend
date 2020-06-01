@@ -33,16 +33,13 @@ import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
 @Repository
 public class JobsRepository {
 	
-JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	
 
 	@Autowired
 	Logger logger;
-	
-	@Autowired
-	public JobsRepository(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
 	
 	
 	
@@ -74,7 +71,7 @@ JdbcTemplate jdbcTemplate;
 	}
 	
 	
-	public void saveJobDescriptionSkills(int jobId, List<Integer> skillList) {
+	public int saveJobDescriptionSkills(int jobId, List<Integer> skillList) {
 		
 		jdbcTemplate.batchUpdate(JobsQueries.SAVE_JOB_SKILL,
 				
@@ -93,7 +90,7 @@ JdbcTemplate jdbcTemplate;
             }
 
         });
-		
+		return skillList.size();
 	}
 	
 	public List<JobDescription> findAllJobDescriptions(){
@@ -101,7 +98,7 @@ JdbcTemplate jdbcTemplate;
 	}
 
 	
-	public void updateJobDescription(JobDescription jobDescription) {
+	public boolean updateJobDescription(JobDescription jobDescription) {
 		jdbcTemplate.update(JobsQueries.UPDATE_JOB_DESCRIPTIONS, 
 				
 				jobDescription.getProfile(),
@@ -116,15 +113,19 @@ JdbcTemplate jdbcTemplate;
 				jobDescription.getLastUpdatedBy(),
 				jobDescription.getId()
 				);
+		
+		return true;
 	}
 	
 	
-	public void deleteSkillsByJd(int id) {
+	public boolean deleteSkillsByJd(int id) {
 		jdbcTemplate.update(JobsQueries.DELETE_SKILLS_BY_JD, id);
+		return true;
 	}
 	
-	public void deleteJobDescription(int id) {
+	public boolean deleteJobDescription(int id) {
 		jdbcTemplate.update(JobsQueries.DELETE_JOB_DESCRIPTION_BY_ID, id);
+		return true;
 	}
 	
 	
@@ -146,60 +147,48 @@ JdbcTemplate jdbcTemplate;
 		});
 	}
 	
-	public ChartDataObject getSkillCounts() {
+	public List<ChartObject> getSkillCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_SKILL_COUNT, new ChartObjectMapper());
-		System.out.println(objects.size());
-		return constructChartDataObject(objects);
+		return objects;
 	}
 	
 	
-	public ChartDataObject getResolvedSkillCounts() {
+	public List<ChartObject> getResolvedSkillCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_RESOLVED_SKILL_COUNT, new ChartObjectMapper());
-		System.out.println(objects.size());
-		return constructChartDataObject(objects);
+		return objects;
 	}
 	
-	public ChartDataObject getLocationCounts() {
+	public List<ChartObject> getLocationCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(
 				InsightQueries.FETCH_INSIGHT(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
 				, new ChartObjectMapper());
-		return constructChartDataObject(objects);
+		return objects;
 	}
 	
 	
-	public ChartDataObject getHiringManagerCCounts() {
+	public List<ChartObject> getHiringManagerCCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(
 				InsightQueries.FETCH_INSIGHT(
 						JobsConstants.HIRING_MANAGERS, JobsConstants.HIRING_MANAGERS), 
 						new ChartObjectMapper()
 						);
-		return constructChartDataObject(objects);
+		return objects;
 	}
 	
-	public ChartDataObject getEmploymentTypeCounts() {
+	public List<ChartObject> getEmploymentTypeCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
-		return constructChartDataObject(objects);
+		return objects;
 	}
 	
-	public ChartDataObject getProfileCounts() {
+	public List<ChartObject> getProfileCounts() {
 		List<ChartObject> objects = jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(
 				JobsConstants.PROFILE, 
 				JobsConstants.PROFILE
 				), new ChartObjectMapper());
 		
 		
-		return constructChartDataObject(objects);
+		return objects;
 	}
 	
-	private ChartDataObject constructChartDataObject(List<ChartObject> objects) {
-		
-		List<Integer> values = new ArrayList<>();
-		List<String> labels = new ArrayList<>();
-		
-		values.addAll(objects.stream().map(x -> x.getValue()).collect(Collectors.toList()));
-		labels.addAll(objects.stream().map(x -> x.getName()).collect(Collectors.toList()));
-		
-		return new ChartDataObject(values, labels);
-	}
 
 }

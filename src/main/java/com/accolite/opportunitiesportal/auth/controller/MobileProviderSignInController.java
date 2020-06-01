@@ -47,14 +47,6 @@ public class MobileProviderSignInController {
 	
 	@Autowired
 	UserRepository userRepo;
-	
-	@Value("${google.clientId}")
-	   private String clientId;
-	
-	@Value("${google.clientSecret}")
-	   private String clientSecret;
-	@Value("${google.tokenUrl}")
-	   private String tokenUrl;
 
 	
 	@RequestMapping(value="/signin/{providerId}", method=RequestMethod.POST)

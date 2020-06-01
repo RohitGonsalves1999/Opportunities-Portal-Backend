@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -76,6 +77,17 @@ public class AppConfig {
 		driverManagerDataSource.setPassword(environment.getProperty(PASS));
 		driverManagerDataSource.setDriverClassName(environment.getProperty(DRIVER));
 		return driverManagerDataSource;
+	}
+	
+	
+	@Bean
+	JdbcTemplate jdbcTemplate() {
+		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+		driverManagerDataSource.setUrl(environment.getProperty(URL));
+		driverManagerDataSource.setUsername(environment.getProperty(USER));
+		driverManagerDataSource.setPassword(environment.getProperty(PASS));
+		driverManagerDataSource.setDriverClassName(environment.getProperty(DRIVER));
+		return new JdbcTemplate(driverManagerDataSource);
 	}
 	
 	

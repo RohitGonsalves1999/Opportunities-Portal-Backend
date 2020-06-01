@@ -1,6 +1,6 @@
 package com.accolite.opportunitiesportal.testservices;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -8,27 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.meta.When;
-
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.boot.autoconfigure.batch.BatchProperties.Job;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.accolite.opportunitiesportal.jobs.dao.JobsDao;
+import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
 import junit.framework.Assert;
-
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @TestComponent
@@ -45,6 +40,9 @@ class JobsServiceTest {
 	private static Map<String, List<DropDownItem>>  dropDownAttributesList = new HashMap<>();
 	
 	private static Map<String, Map<Integer, String>> attributeMap = new HashMap<>();
+	
+	
+	private static Map<String, ChartDataObject> insightObject = new HashMap<>();
 	
 	private JobDescription jobDesc = new JobDescription(1, 1, 1, 1, 1, 10, new Date(), 1, null, 0, "BEST JOB EVER");
 	
@@ -90,7 +88,8 @@ class JobsServiceTest {
 	@Test
 	void testUpdateJobDescriptionWithSkills() {
 		when(jobsDao.updateJobDescription(jdWithSkills)).thenReturn(true);
-		Assert.assertEquals(true, jobsService.updateJobDescriptionWithSkills(jdWithSkills));
+		when(jobsDao.findJobDescriptionbyId(1)).thenReturn(jobDesc);
+		Assert.assertEquals(jdWithSkills, jobsService.updateJobDescriptionWithSkills(jdWithSkills));
 	}
 
 	@Test
@@ -108,7 +107,8 @@ class JobsServiceTest {
 
 	@Test
 	void testGetInsightMap() {
-		fail("Not yet implemented");
+		when(jobsDao.getInsightMap()).thenReturn(insightObject);
+		Assert.assertEquals(insightObject, jobsService.getInsightMap());
 	}
 
 }
