@@ -3,7 +3,6 @@ package com.accolite.opportunitiesportal.auth.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 import org.slf4j.Logger;
@@ -56,26 +55,14 @@ public class MobileProviderSignInController {
 			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
 					.setAudience(Collections.singletonList(clientId)).build();
 			
-			
-			logger.info(String.format("IDToken: %s \n ClientId: %s", sessionUser.getAuthToken(), clientId));
+			String logMsg = String.format("IDToken: %s  ClientId: %s", sessionUser.getAuthToken(), clientId);
+			logger.info(logMsg);
 
 			GoogleIdToken idToken = verifier.verify(sessionUser.getAuthToken());
 
 			if (idToken != null) {
 				Payload payload = idToken.getPayload();
-
-//				// Print user identifier
-//				String userId = payload.getSubject();
-//				System.out.println("User ID: " + userId);
-//
-//				// Get profile information from payload
-//				String email = payload.getEmail();
-//				boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-//				String name = (String) payload.get("name");
-//				String pictureUrl = (String) payload.get("picture");
-//				String locale = (String) payload.get("locale");
-//				String familyName = (String) payload.get("family_name");
-//				String givenName = (String) payload.get("given_name");
+				logger.info(payload.toString());
 
 			} else {
 				System.out.println("Invalid ID token.");

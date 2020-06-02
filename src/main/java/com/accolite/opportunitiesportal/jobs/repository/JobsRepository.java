@@ -219,7 +219,7 @@ public class JobsRepository {
 	public List<ChartObject> getLocationCounts() {
 		
 		return jdbcTemplate.query(
-				InsightQueries.FETCH_INSIGHT(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
+				InsightQueries.fetchInsight(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
 				, new ChartObjectMapper());
 	}
 	
@@ -227,19 +227,19 @@ public class JobsRepository {
 	public List<ChartObject> getHiringManagerCCounts() {
 		
 		return jdbcTemplate.query(
-				InsightQueries.FETCH_INSIGHT(
+				InsightQueries.fetchInsight(
 						JobsConstants.HIRING_MANAGERS, JobsConstants.HIRING_MANAGERS), 
 						new ChartObjectMapper()
 						);
 	}
 	
 	public List<ChartObject> getEmploymentTypeCounts() {
-		return jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
+		return jdbcTemplate.query(InsightQueries.fetchInsight(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
 	}
 	
 	public List<ChartObject> getProfileCounts() {
 		
-		return jdbcTemplate.query(InsightQueries.FETCH_INSIGHT(
+		return jdbcTemplate.query(InsightQueries.fetchInsight(
 				JobsConstants.PROFILE, 
 				JobsConstants.PROFILE
 				), new ChartObjectMapper());

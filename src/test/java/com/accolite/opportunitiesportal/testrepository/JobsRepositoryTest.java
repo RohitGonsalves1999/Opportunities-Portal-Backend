@@ -83,11 +83,6 @@ class JobsRepositoryTest {
 	GeneratedKeyHolder holder = new GeneratedKeyHolder();
 
 	@Test
-	void testSaveJobdescription() {
-		fail("not yet implemented");
-	}
-
-	@Test
 	void testSaveJobDescriptionSkills() {
 		when(template.update(Mockito.anyString(), Mockito.any(BatchPreparedStatementSetter.class))).thenReturn(skillList.size());
 		
@@ -204,9 +199,5 @@ class JobsRepositoryTest {
 		Assert.assertEquals(ddItems, repo.getItemList(JobsConstants.LOCATION));
 	}
 	
-	@Test
-	void testSaveJobDescriptionVersionSkills() {
-		
-	}
 
 }

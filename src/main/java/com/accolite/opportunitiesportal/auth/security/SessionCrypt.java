@@ -18,7 +18,7 @@ import org.springframework.util.SerializationUtils;
 
 public class SessionCrypt {
 
-	private String KEY = "WGwR_gQidWKx_5Vu";
+	private String key = "WGwR_gQidWKx_5Vu";
 	private static final Logger log=LoggerFactory.getLogger(SessionCrypt.class);
     public String encrypt(String userId){
     	try {
@@ -27,7 +27,10 @@ public class SessionCrypt {
             String encryptedSession = DatatypeConverter.printHexBinary(aes.doFinal(bytes));
             String signature = calculateSignature(bytes).toUpperCase();
             return encryptedSession + signature;
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
+        	log.error(e.toString());
+		}
+    	catch (Exception e) {
             log.error("Can't encrypt userID : ", e);
         }
         return null;
@@ -40,7 +43,7 @@ public class SessionCrypt {
 	            String encryptedSession = session.substring(0,session.length() - 40);
 	            Cipher aes = createChiper(Cipher.DECRYPT_MODE);
 	            byte[] bytes = aes.doFinal(DatatypeConverter.parseHexBinary(encryptedSession));
-	            if (!signature.equals(calculateSignature(bytes).toUpperCase())) {
+	            if (!signature.equalsIgnoreCase(calculateSignature(bytes))) {
 	                log.error("Session has been tampered with");
 	                return null;
 	            }
@@ -54,7 +57,7 @@ public class SessionCrypt {
 
     private Cipher createChiper(int mode) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
         Cipher aes = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        aes.init(mode, new SecretKeySpec(KEY.getBytes(), "AES"), new IvParameterSpec(new byte[16]));
+        aes.init(mode, new SecretKeySpec(key.getBytes(), "AES"), new IvParameterSpec(new byte[16]));
         return aes;
     }
 

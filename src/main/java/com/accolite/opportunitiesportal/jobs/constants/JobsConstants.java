@@ -1,5 +1,8 @@
 package com.accolite.opportunitiesportal.jobs.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class JobsConstants {
 	
 	private JobsConstants() {}
@@ -21,12 +24,12 @@ public class JobsConstants {
 	public static final String CHART_OBJECT_NAME = "name";
 	public static final String CHART_OBJECT_VALUE = "count";
 	
-	public static final String[] ATTRIBUTES_LIST = { 
+	public static final List<String> ATTRIBUTES_LIST = Arrays.asList( 
 			SKILLS, 
 			HIRING_MANAGERS, 
 			EMPLOYMENT_TYPE, 
 			LOCATION, 
 			PROFILE 
-			};
+			);
 	                                                 
 }

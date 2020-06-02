@@ -72,7 +72,7 @@ public class JobsDao {
 		resultList = jobList.stream().map(job -> {
 			JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
 			descriptionWithSkills.setJobDescription(job);
-			logger.error(job.getId() + "");
+			logger.info(String.format("Id: %d", job.getId()));
 			descriptionWithSkills.setSkillList(jobsRepository.getVersionSkillListById(job.getId()));
 			return descriptionWithSkills;
 		}).collect(Collectors.toList());

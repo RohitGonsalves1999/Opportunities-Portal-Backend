@@ -40,7 +40,7 @@ public class InsightQueries {
 			"			and jd.isActive = false and js.isactive = true;\r\n" + 
 			"			";
 	
-	public static final String FETCH_INSIGHT(String table, String column) {
+	public static final String fetchInsight(String table, String column) {
 		return String.format(FETCH_INSIGHT, column, table, column);
 	}
 }
