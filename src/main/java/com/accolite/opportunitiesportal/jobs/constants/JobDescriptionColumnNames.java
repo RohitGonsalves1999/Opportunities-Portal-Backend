@@ -5,6 +5,7 @@ public class JobDescriptionColumnNames {
 	private JobDescriptionColumnNames() {}
 
 	public static final String ID = "id";
+	public static final String ENTRY_ID = "entryid";
 	public static final String PROFILE = "profile";
 	public static final String DESCRIPTION = "description";
 	public static final String LOCATION = "location";

@@ -69,6 +69,25 @@ public class JobsQueries {
 	public static final String DELETE_JOB_DESCRIPTION_BY_ID = 
 			"update jobdescription set isActive = false\r\n" + 
 			"	WHERE id = ?;";
+	
+	
+	public static final String SAVE_NEW_JD_VERSION = 
+			"INSERT INTO outdatedjobdescription(\r\n" + 
+			"	id, profile, description, location, employmenttype, hiringmanager, openings, postedon, postedby, lastupdated, lastupdatedby)\r\n" + 
+			"	VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	
+	public static final String SAVE_JD_VERSION_SKILLS = 
+			"INSERT INTO outdatedjobpostskillset(\r\n" + 
+			"	jobId, skillId)\r\n" + 
+			"	VALUES (?, ?);";
+	
+	public static final String GET_JD_VERSION_SKILLS = 
+			"SELECT skillid\r\n" + 
+			"	FROM outdatedjobpostskillset where jobid = ?;";
+	
+	public static final String GET_ALL_JD_VERSIONS = "SELECT * FROM outdatedjobdescription where id=?;";
+	
+	public static final String GET_JD_VERSION_BY_ENTRY_ID = "SELECT * FROM outdatedjobdescription where entryId=?;";
 }
 
 	

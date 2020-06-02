@@ -8,12 +8,19 @@ import org.springframework.jdbc.core.RowMapper;
 import com.accolite.opportunitiesportal.jobs.constants.JobDescriptionColumnNames;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobDescriptionMapper implements RowMapper<JobDescription> {
+	
+	private boolean isRetrievingVersion = false;
 
 	@Override
 	public JobDescription mapRow(ResultSet rs, int rowNum) throws SQLException {
 		JobDescription description = new JobDescription();
-		description.setId(rs.getInt(JobDescriptionColumnNames.ID));
+		description.setId(rs.getInt(isRetrievingVersion?JobDescriptionColumnNames.ENTRY_ID:JobDescriptionColumnNames.ID));
 		description.setDescription(rs.getString(JobDescriptionColumnNames.DESCRIPTION));
 		description.setEmploymentType(rs.getInt(JobDescriptionColumnNames.EMPLOYMENT_TYPE));
 		description.setHiringManager(rs.getInt(JobDescriptionColumnNames.HIRING_MANAGER));

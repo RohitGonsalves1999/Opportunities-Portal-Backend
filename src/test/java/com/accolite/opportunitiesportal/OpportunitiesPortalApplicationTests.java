@@ -22,11 +22,13 @@ import com.accolite.opportunitiesportal.auth.model.UserConnection;
 import com.accolite.opportunitiesportal.auth.model.UserDetails;
 import com.accolite.opportunitiesportal.jobs.controller.JobAttributesController;
 import com.accolite.opportunitiesportal.jobs.controller.JobController;
+import com.accolite.opportunitiesportal.jobs.controller.JobDescriptionVersioningController;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
+import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
 import com.accolite.opportunitiesportal.jobs.service.JobAttributeService;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 import com.accolite.opportunitiesportal.testutils.PojoTestUtils;
@@ -81,6 +83,9 @@ class OpportunitiesPortalApplicationTests {
 		PojoTestUtils.validateAccessors(UserDetails.class);
 		PojoTestUtils.validateAccessors(SessionStatus.class);
 		PojoTestUtils.validateAccessors(UserConnection.class);
+		PojoTestUtils.validateAccessors(JobController.class);
+		PojoTestUtils.validateAccessors(JobDescriptionVersioningController.class);
+		PojoTestUtils.validateAccessors(JobsRepository.class);
 	}
 	
 	

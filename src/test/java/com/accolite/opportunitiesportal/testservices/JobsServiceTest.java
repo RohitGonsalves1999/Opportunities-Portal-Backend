@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
@@ -86,11 +87,26 @@ class JobsServiceTest {
 		Assert.assertEquals(jobDesc.getLocation(), jobsService.findJobDescriptionbyId(1).getJobDescription().getLocation());
 		Assert.assertEquals(skillList.size(), jobsService.findJobDescriptionbyId(1).getSkillList().size());
 	}
+	
+	@Test
+	void testfindJobDescriptionVersionById() {
+		when(jobsDao.findJobDescriptionVersionbyId(1)).thenReturn(jobDesc);
+		when(jobsDao.getVersionSkillsById(1)).thenReturn(skillList);
+		Assert.assertEquals(jobDesc.getId(), jobsService.findJobDescriptionVersionById(1).getJobDescription().getId());
+		Assert.assertEquals(jobDesc.getLocation(), jobsService.findJobDescriptionVersionById(1).getJobDescription().getLocation());
+		Assert.assertEquals(skillList.size(), jobsService.findJobDescriptionVersionById(1).getSkillList().size());
+	}
 
 	@Test
 	void testGetAllJobDescriptions() {
 		when(jobsDao.getAllJobDescriptions()).thenReturn(jdList);
 		Assert.assertEquals(jdList, jobsService.getAllJobDescriptions());
+	}
+	
+	@Test
+	void testgetallJobDescrptionVersions() {
+		when(jobsDao.getAllJobDescriptionsVersions(Mockito.anyInt())).thenReturn(jdList);
+		Assert.assertEquals(jdList, jobsService.getallJobDescrptionVersions(1));
 	}
 
 	@Test

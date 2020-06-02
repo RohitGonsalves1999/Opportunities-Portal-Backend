@@ -16,6 +16,7 @@ public class JobsConstants {
 	public static final String ID = "id";
 	public static final String JOB_ID = "jobId";
 	public static final String SKILL_ID = "skillId";
+	public static final String ENTRY_ID = "entryid";
 	
 	public static final String CHART_OBJECT_NAME = "name";
 	public static final String CHART_OBJECT_VALUE = "count";

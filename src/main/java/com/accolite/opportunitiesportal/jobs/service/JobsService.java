@@ -15,10 +15,7 @@ public class JobsService {
 	
 	@Autowired
 	JobsDao jobsDao;
-
 	
-	
-
 	public JobDescriptionWithSkills addJobDescription(JobDescriptionWithSkills desc) {
 		
 		int id;
@@ -42,12 +39,25 @@ public class JobsService {
 		
 		return descriptionWithSkills;
 	}
+	
+	public JobDescriptionWithSkills findJobDescriptionVersionById(int id) {
+		JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
+		JobDescription  jobDescription = jobsDao.findJobDescriptionVersionbyId(id);
+		descriptionWithSkills.setJobDescription(jobDescription);
+		descriptionWithSkills.setSkillList(jobsDao.getVersionSkillsById(id));
+		
+		return descriptionWithSkills;
+	}
 
 
 	public List<JobDescriptionWithSkills> getAllJobDescriptions() {
 	
 		return jobsDao.getAllJobDescriptions();
 	
+	}
+	
+	public List<JobDescriptionWithSkills> getallJobDescrptionVersions(int jobId){
+		return jobsDao.getAllJobDescriptionsVersions(jobId);
 	}
 	
 	

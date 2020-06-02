@@ -22,12 +22,9 @@ import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 @Repository
 public class UserRepository {
 	
+	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	@Autowired
-	public UserRepository(DataSource dataSource) {
-		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
 	
 	public UserDetails getUserById(int id) {
 		return jdbcTemplate.queryForObject(UserQueries.GET_USER_BY_ID, new Object[] {id}, new UserDetailsRowMapper());

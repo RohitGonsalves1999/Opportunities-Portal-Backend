@@ -93,11 +93,23 @@ class JobsRepositoryTest {
 		
 		Assert.assertEquals(skillList.size(), repo.saveJobDescriptionSkills(1, skillList));
 	}
+	
+	@Test 
+	void testsaveJobDescriptionVersionSkills(){
+		when(template.update(Mockito.anyString(), Mockito.any(BatchPreparedStatementSetter.class))).thenReturn(skillList.size());
+		Assert.assertEquals(skillList.size(), repo.saveJobDescriptionVersionSkills(1, skillList));
+	}
 
 	@Test
 	void testFindAllJobDescriptions() {
 		when(template.query(Mockito.anyString(), Mockito.any(JobDescriptionMapper.class))).thenReturn(jdList2);
 		Assert.assertEquals(jdList2, repo.findAllJobDescriptions());
+	}
+	
+	@Test
+	void testfindAllJobDescriptionVersions() {
+		when(template.query(Mockito.anyString(), any(Object[].class) ,Mockito.any(JobDescriptionMapper.class))).thenReturn(jdList2);
+		Assert.assertEquals(jdList2, repo.findAllJobDescriptionVersions(1));
 	}
 
 	@Test
@@ -129,12 +141,25 @@ class JobsRepositoryTest {
 		when(template.queryForObject(anyString(), Mockito.any(Object[].class), any(JobDescriptionMapper.class))).thenReturn(jobDesc);
 		Assert.assertEquals(jobDesc, repo.findById(1));
 	}
+	
+	@Test
+	void testFindVersionById() {
+		when(template.queryForObject(anyString(), Mockito.any(Object[].class), any(JobDescriptionMapper.class))).thenReturn(jobDesc);
+		Assert.assertEquals(jobDesc, repo.findVersionById(1));
+	}
 
 	@Test
 	void testGetSkillListById() {
 		when(template.query(anyString(), any(Object[].class), any(RowMapper.class))).thenReturn(skillList);
 		
 		Assert.assertEquals(skillList, repo.getSkillListById(1));
+	}
+	
+	@Test
+	void testGetVersionSkillListById() {
+		when(template.query(anyString(), any(Object[].class), any(RowMapper.class))).thenReturn(skillList);
+		
+		Assert.assertEquals(skillList, repo.getVersionSkillListById(1));
 	}
 
 	@Test
@@ -177,6 +202,11 @@ class JobsRepositoryTest {
 	void testGetItemList() {
 		when(template.query(anyString(), any(AttributeMapper.class))).thenReturn(ddItems);
 		Assert.assertEquals(ddItems, repo.getItemList(JobsConstants.LOCATION));
+	}
+	
+	@Test
+	void testSaveJobDescriptionVersionSkills() {
+		
 	}
 
 }

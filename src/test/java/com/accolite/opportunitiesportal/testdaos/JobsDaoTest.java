@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
@@ -121,17 +122,36 @@ class JobsDaoTest {
 		when(repo.findById(1)).thenReturn(jobDesc);
 		Assert.assertEquals(jobDesc, dao.findJobDescriptionbyId(1));
 	}
+	
+	
+	@Test
+	void testFindJobDescriptionVersionbyId() {
+		when(repo.findVersionById(1)).thenReturn(jobDesc);
+		Assert.assertEquals(jobDesc, dao.findJobDescriptionVersionbyId(1));
+	}
 
 	@Test
 	void testGetAllJobDescriptions() {
 		when(repo.findAllJobDescriptions()).thenReturn(jdList2);
 		Assert.assertEquals(jobDesc, dao.getAllJobDescriptions().get(0).getJobDescription());
 	}
+	
+	@Test
+	void getAllJobDescriptionsVersions() {
+		when(repo.findAllJobDescriptionVersions(Mockito.anyInt())).thenReturn(jdList2);
+		Assert.assertEquals(jobDesc, dao.getAllJobDescriptionsVersions(1).get(0).getJobDescription());
+	}
 
 	@Test
 	void testGetSkillsById() {
 		when(repo.getSkillListById(1)).thenReturn(skillList);
 		Assert.assertEquals(skillList, dao.getSkillsById(1));
+	}
+	
+	@Test
+	void testGetVersionSkillsById() {
+		when(repo.getVersionSkillListById(1)).thenReturn(skillList);
+		Assert.assertEquals(skillList, dao.getVersionSkillsById(1));
 	}
 
 	@Test

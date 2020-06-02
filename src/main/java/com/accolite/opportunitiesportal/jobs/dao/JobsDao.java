@@ -4,6 +4,8 @@ package com.accolite.opportunitiesportal.jobs.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,7 +23,7 @@ public class JobsDao {
 	@Autowired
 	JobsRepository jobsRepository;
 	
-	
+	Logger logger = LoggerFactory.getLogger(JobsDao.class);
 	
 
 
@@ -41,6 +43,11 @@ public class JobsDao {
 	}
 	
 	
+	public JobDescription findJobDescriptionVersionbyId(int id) {
+		return jobsRepository.findVersionById(id);
+	}
+	
+	
 	public List<JobDescriptionWithSkills> getAllJobDescriptions() {
 		List<JobDescriptionWithSkills> resultList;
 		List<JobDescription> jobList;
@@ -48,8 +55,25 @@ public class JobsDao {
 		
 		resultList = jobList.stream().map(job -> {
 			JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
+			
 			descriptionWithSkills.setJobDescription(job);
 			descriptionWithSkills.setSkillList(jobsRepository.getSkillListById(job.getId()));
+			return descriptionWithSkills;
+		}).collect(Collectors.toList());
+		
+		return resultList;
+	}
+	
+	public List<JobDescriptionWithSkills> getAllJobDescriptionsVersions(int jobId) {
+		List<JobDescriptionWithSkills> resultList;
+		List<JobDescription> jobList;
+		jobList = jobsRepository.findAllJobDescriptionVersions(jobId);
+		
+		resultList = jobList.stream().map(job -> {
+			JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
+			descriptionWithSkills.setJobDescription(job);
+			logger.error(job.getId() + "");
+			descriptionWithSkills.setSkillList(jobsRepository.getVersionSkillListById(job.getId()));
 			return descriptionWithSkills;
 		}).collect(Collectors.toList());
 		
@@ -61,9 +85,17 @@ public class JobsDao {
 		return jobsRepository.getSkillListById(id);
 	}
 	
+	public List<Integer> getVersionSkillsById(int id){
+		return jobsRepository.getVersionSkillListById(id);
+	}
+	
 
 	
 	public boolean updateJobDescription(JobDescriptionWithSkills desc) {
+		JobDescription oldJd = jobsRepository.findById(desc.getJobDescription().getId());
+		List<Integer> oldSkillList = jobsRepository.getSkillListById(desc.getJobDescription().getId());
+		int entryId = jobsRepository.saveJobdescriptionVersion(oldJd);
+		jobsRepository.saveJobDescriptionVersionSkills(entryId, oldSkillList);
 		jobsRepository.updateJobDescription(desc.getJobDescription());
 		jobsRepository.deleteSkillsByJd(desc.getJobDescription().getId());
 		jobsRepository.saveJobDescriptionSkills(desc.getJobDescription().getId(), desc.getSkillList());
