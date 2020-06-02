@@ -3,6 +3,7 @@ package com.accolite.opportunitiesportal.auth.controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 import org.slf4j.Logger;
@@ -62,13 +63,14 @@ public class MobileProviderSignInController {
 
 			if (idToken != null) {
 				Payload payload = idToken.getPayload();
-				logger.info(payload.toString());
+				String message = String.format("%s", payload.toString());
+				logger.info(message);
 
 			} else {
-				System.out.println("Invalid ID token.");
+				logger.error("Invalid ID token.");
 			}
 			if (!(sessionUser.getEmail().contains("@accoliteindia.com"))) {
-				throw new Exception();
+				throw new GeneralSecurityException();
 			}
 
 			String result = sessionCrypt.encrypt(sessionUser.getEmail());

@@ -27,7 +27,12 @@ import com.accolite.opportunitiesportal.jobs.rowmapper.AttributeMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.ChartObjectMapper;
 import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Repository
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobsRepository {
 	
 	private static final org.slf4j.Logger logger =LoggerFactory.getLogger(JobsRepository.class);

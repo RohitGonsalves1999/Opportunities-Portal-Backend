@@ -24,12 +24,16 @@ public class JobsConstants {
 	public static final String CHART_OBJECT_NAME = "name";
 	public static final String CHART_OBJECT_VALUE = "count";
 	
-	public static final List<String> ATTRIBUTES_LIST = Arrays.asList( 
+	protected static final List<String> ATTRIBUTES_LIST = Arrays.asList( 
 			SKILLS, 
 			HIRING_MANAGERS, 
 			EMPLOYMENT_TYPE, 
 			LOCATION, 
 			PROFILE 
 			);
+	
+	public static List<String> getAttributeList(){
+		return ATTRIBUTES_LIST;
+	}
 	                                                 
 }

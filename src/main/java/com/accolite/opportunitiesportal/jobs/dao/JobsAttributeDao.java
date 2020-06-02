@@ -25,7 +25,7 @@ public class JobsAttributeDao {
 	public Map<String,List<DropDownItem>> getAttributes(){
 		Map<String, List<DropDownItem>> attributeMap = new HashMap<>();
 		
-		for(String i : JobsConstants.ATTRIBUTES_LIST) {
+		for(String i : JobsConstants.getAttributeList()) {
 			attributeMap.put(i, jobsRepository.getItemList(i));
 		}
 		
@@ -35,7 +35,7 @@ public class JobsAttributeDao {
 	public Map<String,Map<Integer, String>> getAttributesMap(){
 		Map<String, Map<Integer, String>> attributeMap = new HashMap<>();
 		
-		for(String i : JobsConstants.ATTRIBUTES_LIST) {
+		for(String i : JobsConstants.getAttributeList()) {
 			List<DropDownItem> attributeList = jobsRepository.getItemList(i);
 			Map<Integer, String> attributeSubMap = new HashMap<>();
 			for(DropDownItem it : attributeList) {
