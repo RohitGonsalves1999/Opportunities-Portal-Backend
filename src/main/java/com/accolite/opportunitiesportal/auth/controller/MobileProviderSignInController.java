@@ -1,7 +1,10 @@
 package com.accolite.opportunitiesportal.auth.controller;
 
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accolite.opportunitiesportal.auth.model.SessionStatus;
@@ -18,60 +20,99 @@ import com.accolite.opportunitiesportal.auth.model.SessionUser;
 import com.accolite.opportunitiesportal.auth.model.UserDetails;
 import com.accolite.opportunitiesportal.auth.repository.UserRepository;
 import com.accolite.opportunitiesportal.auth.security.SessionCrypt;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.Value;
 
 @RestController
 @RequestMapping("/api/jobs")
 public class MobileProviderSignInController {
-	
-	private static final Logger logger=LoggerFactory.getLogger(MobileProviderSignInController.class);
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(MobileProviderSignInController.class);
+
 	private SessionCrypt sessionCrypt = new SessionCrypt();
-	
+
+	@Value("${google.clientId}")
+	private String clientId = "343600838738-8qp1ko38besbjlirc7ov3ca908s47g4s.apps.googleusercontent.com";
+
 	@Autowired
 	UserRepository userRepo;
 
-	
-	@PostMapping(value="/signin/{providerId}")
+	@PostMapping(value = "/signin/{providerId}")
 	public SessionUser oauth2Callback(@PathVariable String providerId, @RequestBody UserDetails sessionUser) {
-		
+
 		try {
-				URLDecoder.decode(sessionUser.getAuthToken(), StandardCharsets.UTF_8.toString());
+
+			URLDecoder.decode(sessionUser.getAuthToken(), StandardCharsets.UTF_8.toString());
+
+			HttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
+			JsonFactory jsonFactory = new JacksonFactory();
+
+			GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+					.setAudience(Collections.singletonList(clientId)).build();
 			
-			if(!(sessionUser.getEmail().contains("@accoliteindia.com"))) {
+			
+			logger.info(String.format("IDToken: %s \n ClientId: %s", sessionUser.getAuthToken(), clientId));
+
+			GoogleIdToken idToken = verifier.verify(sessionUser.getAuthToken());
+
+			if (idToken != null) {
+				Payload payload = idToken.getPayload();
+
+				// Print user identifier
+				String userId = payload.getSubject();
+				System.out.println("User ID: " + userId);
+
+				// Get profile information from payload
+				String email = payload.getEmail();
+				boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
+				String name = (String) payload.get("name");
+				String pictureUrl = (String) payload.get("picture");
+				String locale = (String) payload.get("locale");
+				String familyName = (String) payload.get("family_name");
+				String givenName = (String) payload.get("given_name");
+
+			} else {
+				System.out.println("Invalid ID token.");
+			}
+			if (!(sessionUser.getEmail().contains("@accoliteindia.com"))) {
 				throw new Exception();
 			}
-			
+
 			String result = sessionCrypt.encrypt(sessionUser.getEmail());
 			UserDetails user = new UserDetails(0, sessionUser.getEmail(), sessionUser.getName(), result);
 			int userId = 0;
-			if(!userRepo.isUserWithEmailPresent(sessionUser.getEmail())) {
-				userId  = userRepo.saveUserDetails(user);
-			}
-			else {
+			if (!userRepo.isUserWithEmailPresent(sessionUser.getEmail())) {
+				userId = userRepo.saveUserDetails(user);
+			} else {
 				userId = userRepo.getUserById(sessionUser.getEmail()).getId();
 			}
-			
-			
-			
-			
+
 			return new SessionUser(userId, sessionUser.getEmail(), result);
-		
+
+		} catch (IOException e) {
+			logger.error(e.toString());
+			return new SessionUser(-1, "", "");
 		} catch (Exception e) {
-			
+
 			logger.error("Exception while completing OAuth 2 connection: ", e);
-			return new SessionUser(-1, "", "");	}
+			return new SessionUser(-1, "", "");
+		}
 	}
-	
-	
+
 	@PostMapping("/verifySession")
 	public SessionStatus verifySession(@RequestBody String authToken) {
-		 	
-		if(userRepo.isUserWithTokenPresent(authToken)) {
+
+		if (userRepo.isUserWithTokenPresent(authToken)) {
 			return new SessionStatus(true, 200, authToken);
+		} else {
+			return new SessionStatus(false, 401, authToken);
 		}
-		else {
-			return new SessionStatus(false,401,authToken);
-		}
-		
+
 	}
 }
