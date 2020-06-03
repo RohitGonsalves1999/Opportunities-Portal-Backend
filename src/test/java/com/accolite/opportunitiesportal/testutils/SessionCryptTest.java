@@ -1,13 +1,14 @@
 package com.accolite.opportunitiesportal.testutils;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.TestComponent;
 
 import com.accolite.opportunitiesportal.auth.security.SessionCrypt;
 
-import junit.framework.Assert;
+
 
 
 @TestComponent

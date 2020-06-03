@@ -25,7 +25,7 @@ public class JobDescriptionVersioningController {
 	}
 	
 	
-	@GetMapping("/JobVersions/version/{id})")
+	@GetMapping("/JobVersions/version/{id}")
 	public JobDescriptionWithSkills getSpecificJobDescriptionVersion(@PathVariable int id) {
 		return jobsService.findJobDescriptionVersionById(id);
 	}

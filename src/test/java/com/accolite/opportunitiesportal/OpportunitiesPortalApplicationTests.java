@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.client.RestTemplate;
 
 import com.accolite.opportunitiesportal.auth.model.SessionStatus;
 import com.accolite.opportunitiesportal.auth.model.SessionUser;
@@ -37,7 +38,9 @@ import junit.framework.Assert;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-class OpportunitiesPortalApplicationTests {
+public class OpportunitiesPortalApplicationTests {
+	
+	public RestTemplate template = new RestTemplate();
 	
 	@InjectMocks
 	private JobController jobController;
