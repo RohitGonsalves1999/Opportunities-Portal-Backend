@@ -29,10 +29,12 @@ import com.accolite.opportunitiesportal.jobs.rowmapper.JobDescriptionMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class JobsRepository {
 	
 	private static final org.slf4j.Logger logger =LoggerFactory.getLogger(JobsRepository.class);
@@ -44,6 +46,7 @@ public class JobsRepository {
 	
 	
 	public int saveJobdescription(JobDescription desc) {
+		log.debug("Adding JobDescription");
 		GeneratedKeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update( 
 				new PreparedStatementCreator()  {
@@ -65,12 +68,13 @@ public class JobsRepository {
 		
 		}
 				},holder);
-		
+		log.info("Addition Succesful");
 		
 		return (int)holder.getKeys().get(JobsConstants.ID);
 	}
 	
 	public int saveJobdescriptionVersion(JobDescription desc) {
+		log.debug("Adding JobDescription");
 		GeneratedKeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update( 
 				new PreparedStatementCreator()  {
@@ -94,11 +98,15 @@ public class JobsRepository {
 		}
 				},holder);
 		
+		log.info("Successful");
+		
 		return (int)holder.getKeys().get(JobsConstants.ENTRY_ID);
 	}
 	
 	
 	public int saveJobDescriptionSkills(int jobId, List<Integer> skillList) {
+		String skills = skillList.toString();
+		log.debug(String.format("Saving Skill List: %s", skills));
 		
 		jdbcTemplate.batchUpdate(JobsQueries.SAVE_JOB_SKILL,
 				
@@ -117,11 +125,14 @@ public class JobsRepository {
             }
 
         });
+		log.info(String.format("Saving Skill List: %s Successful", skills));
 		return skillList.size();
 	}
 	
 	
 	public int saveJobDescriptionVersionSkills(int outdatedJobId, List<Integer> outdatedSkillList) {
+		
+		log.debug(String.format("Saving Skill List: %s", outdatedSkillList.toString()));
 		
 		jdbcTemplate.batchUpdate(JobsQueries.SAVE_JD_VERSION_SKILLS,
 				
@@ -140,19 +151,24 @@ public class JobsRepository {
             }
 
         });
+		logger.info("Save List Successful");
 		return outdatedSkillList.size();
 	}
 	
 	public List<JobDescription> findAllJobDescriptions(){
+		logger.debug("Get All Job Descriptions");
 		return jdbcTemplate.query(JobsQueries.GET_ALL_JOB_DESCRIPTIONS, new JobDescriptionMapper());
 	}
 	
 	public List<JobDescription> findAllJobDescriptionVersions(int jobID){
+		logger.debug("Get All Job Descriptions Versions");
 		return jdbcTemplate.query(JobsQueries.GET_ALL_JD_VERSIONS , new Object[] { jobID }, new JobDescriptionMapper(true));
 	}
 
 	
 	public boolean updateJobDescription(JobDescription jobDescription) {
+		String message = String.format("Update JobDescriptions: %s", jobDescription);
+		logger.debug(message);
 		jdbcTemplate.update(JobsQueries.UPDATE_JOB_DESCRIPTIONS, 
 				new Object [] {
 				jobDescription.getProfile(),
@@ -167,46 +183,54 @@ public class JobsRepository {
 				jobDescription.getLastUpdatedBy(),
 				jobDescription.getId()}
 				);
-		
+		message = String.format("Update JobDescriptions: %s successful", jobDescription);
+		logger.debug(message);
 		return true;
 	}
 	
 	
 	public boolean deleteSkillsByJd(int id) {
+		log.debug("Deleting Skills");
 		jdbcTemplate.update(JobsQueries.DELETE_SKILLS_BY_JD, id);
+		log.info("Delete Successful");
 		return true;
 	}
 	
 	public boolean deleteJobDescription(int id) {
+		log.debug(String.format("Deactivating JobDescription: %d", id));
 		jdbcTemplate.update(JobsQueries.DELETE_JOB_DESCRIPTION_BY_ID, id);
+		log.debug(String.format("Deactivating JobDescription: %d Successful", id));
 		return true;
 	}
 	
 	
 	
 	public int markSkillInactive(int id) {
+		log.debug(String.format("Marking Skill for jobId %d Inactive", id));
 		return jdbcTemplate.update(JobsQueries.MARK_SKILL_INACTIVE_BY_JD, id);
 	}
 
 
 	public JobDescription findById(int id) {
-		
+		log.debug(String.format("Find job By Id: %d", id));
 		return jdbcTemplate.queryForObject(JobsQueries.GET_JOB_DESCRIPTION_BY_ID,new Object[] {id} , new JobDescriptionMapper());
 	}
 	
 	
 	public JobDescription findVersionById(int id) {
-		
+		log.debug(String.format("Find job Version By Id: %d", id));
 		return jdbcTemplate.queryForObject(JobsQueries.GET_JD_VERSION_BY_ENTRY_ID,new Object[] {id} , new JobDescriptionMapper());
 	}
 	
 	public List<Integer> getSkillListById(int id){
+		log.debug(String.format("Find job Skill List By Id: %d", id));
 		return jdbcTemplate.query(JobsQueries.GET_SKILLSET_BY_JOB_ID, new Object[] { id }, (ResultSet rs,int rowNum) -> 
 			rs.getInt("skillid")
 		);
 	}
 	
 	public List<Integer> getVersionSkillListById(int id){
+		log.debug(String.format("Find job Version Skill List By Id: %d", id));
 		return jdbcTemplate.query(JobsQueries.GET_JD_VERSION_SKILLS, new Object[] { id }, (ResultSet rs,int rowNum) -> 
 			rs.getInt("skillid")
 		);
@@ -218,11 +242,12 @@ public class JobsRepository {
 	
 	
 	public List<ChartObject> getResolvedSkillCounts() {
+		log.debug("Find Resolved Skill Counts");
 		return jdbcTemplate.query(InsightQueries.FETCH_RESOLVED_SKILL_COUNT, new ChartObjectMapper());
 	}
 	
 	public List<ChartObject> getLocationCounts() {
-		
+		log.debug("Find Location Counts");
 		return jdbcTemplate.query(
 				InsightQueries.fetchInsight(JobsConstants.LOCATION, JobDescriptionColumnNames.LOCATION)
 				, new ChartObjectMapper());
@@ -230,7 +255,7 @@ public class JobsRepository {
 	
 	
 	public List<ChartObject> getHiringManagerCCounts() {
-		
+		log.debug("Find Hiring Manager Counts");
 		return jdbcTemplate.query(
 				InsightQueries.fetchInsight(
 						JobsConstants.HIRING_MANAGERS, JobsConstants.HIRING_MANAGERS), 
@@ -239,11 +264,12 @@ public class JobsRepository {
 	}
 	
 	public List<ChartObject> getEmploymentTypeCounts() {
+		log.debug("Find Employment Type Counts");
 		return jdbcTemplate.query(InsightQueries.fetchInsight(JobsConstants.EMPLOYMENT_TYPE, JobsConstants.EMPLOYMENT_TYPE), new ChartObjectMapper());
 	}
 	
 	public List<ChartObject> getProfileCounts() {
-		
+		log.debug("Find Profile Counts");
 		return jdbcTemplate.query(InsightQueries.fetchInsight(
 				JobsConstants.PROFILE, 
 				JobsConstants.PROFILE
@@ -251,6 +277,7 @@ public class JobsRepository {
 	}
 	
 	public List<DropDownItem> getItemList(String i){
+		log.debug(String.format("Find The list of: %s", i));
 		return jdbcTemplate.query(JobsQueries.getAttribute(i), new AttributeMapper());
 	}
 	

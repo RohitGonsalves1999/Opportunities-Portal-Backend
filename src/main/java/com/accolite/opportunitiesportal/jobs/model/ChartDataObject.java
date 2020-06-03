@@ -12,6 +12,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class ChartDataObject {
 
 	List<Integer> values;

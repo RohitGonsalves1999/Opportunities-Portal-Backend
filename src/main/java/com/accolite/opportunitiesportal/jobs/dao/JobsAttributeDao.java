@@ -15,7 +15,10 @@ import com.accolite.opportunitiesportal.jobs.model.ChartObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class JobsAttributeDao {
 	
 	@Autowired
@@ -25,9 +28,14 @@ public class JobsAttributeDao {
 	public Map<String,List<DropDownItem>> getAttributes(){
 		Map<String, List<DropDownItem>> attributeMap = new HashMap<>();
 		
+		
+		
 		for(String i : JobsConstants.getAttributeList()) {
 			attributeMap.put(i, jobsRepository.getItemList(i));
 		}
+		
+		String mapString =  attributeMap.toString();
+		log.info(String.format("Attribute Map List: %s", mapString));
 		
 		return attributeMap;
 	}
@@ -44,10 +52,15 @@ public class JobsAttributeDao {
 			attributeMap.put(i, attributeSubMap);
 		}
 		
+		
+		String mapString =  attributeMap.toString();
+		log.info(String.format("Attribute Map Map: %s", mapString));
+		
 		return attributeMap;
 	}
 
 	public Map<String, ChartDataObject> getInsightMap(){
+		
 		Map<String, ChartDataObject> chartMap = new HashMap<>();
 		chartMap.put(JobsConstants.SKILLS, constructChartDataObject(jobsRepository.getSkillCounts()));
 		chartMap.put(JobsConstants.LOCATION, constructChartDataObject(jobsRepository.getLocationCounts()));
@@ -55,6 +68,8 @@ public class JobsAttributeDao {
 		chartMap.put(JobsConstants.PROFILE, constructChartDataObject(jobsRepository.getProfileCounts()));
 		chartMap.put(JobsConstants.EMPLOYMENT_TYPE	, constructChartDataObject(jobsRepository.getEmploymentTypeCounts()));
 		chartMap.put(JobsConstants.RESOLVED_SKILLS, constructChartDataObject(jobsRepository.getResolvedSkillCounts()));
+		String mapString =  chartMap.toString();
+		log.info(String.format("Chart Map: %s", mapString));
 		return chartMap;
 	}
 	
@@ -63,6 +78,8 @@ public class JobsAttributeDao {
 		
 		List<Integer> values = new ArrayList<>();
 		List<String> labels = new ArrayList<>();
+		
+		log.debug("ChartObjects: %s", objects.toString());
 		
 		values.addAll(objects.stream().map(x -> x.getValue()).collect(Collectors.toList()));
 		labels.addAll(objects.stream().map(x -> x.getName()).collect(Collectors.toList()));

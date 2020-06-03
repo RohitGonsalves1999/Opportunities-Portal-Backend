@@ -59,6 +59,8 @@ public class MobileProviderSignInController {
 			String logMsg = String.format("IDToken: %s  ClientId: %s", sessionUser.getAuthToken(), clientId);
 			logger.info(logMsg);
 
+			logMsg = String.format("User: %s", sessionUser.toString());
+			logger.info(logMsg);
 			GoogleIdToken idToken = verifier.verify(sessionUser.getAuthToken());
 
 			if (idToken != null) {
@@ -81,8 +83,11 @@ public class MobileProviderSignInController {
 			} else {
 				userId = userRepo.getUserById(sessionUser.getEmail()).getId();
 			}
-
-			return new SessionUser(userId, sessionUser.getEmail(), result);
+			
+			SessionUser sessionUser2 = new SessionUser(userId, sessionUser.getEmail(), result);
+			String msg = String.format("Session User: %s", sessionUser2.toString());
+			logger.debug(msg);
+			return sessionUser2;
 
 		} catch (IOException e) {
 			logger.error(e.toString());
@@ -97,9 +102,16 @@ public class MobileProviderSignInController {
 	@PostMapping("/verifySession")
 	public SessionStatus verifySession(@RequestBody String authToken) {
 
+		String messge;
 		if (userRepo.isUserWithTokenPresent(authToken)) {
-			return new SessionStatus(true, 200, authToken);
+			SessionStatus success = new SessionStatus(true, 200, authToken);
+			messge = String.format("Session Verification Successful: %s", success.toString());
+			logger.debug(messge);
+			return success;
 		} else {
+			SessionStatus faliure = new SessionStatus(false, 401, authToken);
+			messge = String.format("Session Verification Failed: %s", faliure.toString());
+			logger.debug(messge);
 			return new SessionStatus(false, 401, authToken);
 		}
 

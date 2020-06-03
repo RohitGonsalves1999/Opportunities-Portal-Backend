@@ -17,7 +17,10 @@ import com.accolite.opportunitiesportal.auth.queries.UserQueries;
 import com.accolite.opportunitiesportal.auth.rowmapper.UserDetailsRowMapper;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class UserRepository {
 	
 	@Autowired
@@ -25,16 +28,19 @@ public class UserRepository {
 	
 	
 	public UserDetails getUserById(int id) {
+		log.info("Get User Details By Id");
 		return jdbcTemplate.queryForObject(UserQueries.GET_USER_BY_ID, new Object[] {id}, new UserDetailsRowMapper());
 	}
 	
 	
 	public UserDetails getUserById(String email) {
+		log.info("Get User Details By Email");
 		return jdbcTemplate.queryForObject(UserQueries.GET_USER_BY_EMAIL, new Object[] {email}, new UserDetailsRowMapper());
 	}
 	
 	
 	public int saveUserDetails(UserDetails details){
+		log.info("Saving User details");
 		GeneratedKeyHolder holder = new GeneratedKeyHolder();
 		jdbcTemplate.update( 
 				new PreparedStatementCreator()  {
@@ -49,27 +55,29 @@ public class UserRepository {
 		}
 				},holder);
 		
-		
+		log.info("Save Successful! returning Generated ID");
 		return (int)holder.getKeys().get(JobsConstants.ID);
 	}
 	
 	public boolean saveUserTokenByEmail(String authToken, String email) {
-		
+		log.info("Persisting User Token");
 		jdbcTemplate.update(UserQueries.SAVE_USER_TOKEN_BY_EMAIL, authToken, email);
-		
+		log.info("Persisting User Token Successful");
 		return true;
 	}
 	
 	
 	public boolean isUserWithTokenPresent(String token) {
+		log.debug(String.format("Checking User With Token: %s", token));
 		List<UserDetails> usersList = jdbcTemplate.query(UserQueries.GET_USER_BY_TOKEN, new Object [] {token}, new UserDetailsRowMapper());
-		
+		log.debug(String.format("Checking User With Token Done: %s", token));
 		return usersList.size() == 1;
 	}
 	
 	public boolean isUserWithEmailPresent(String email) {
+		log.debug(String.format("Checking User With Email: %s", email));
 		List<UserDetails> usersList = jdbcTemplate.query(UserQueries.GET_USER_BY_EMAIL, new Object [] {email}, new UserDetailsRowMapper());
-		
+		log.debug(String.format("Done Checking email: %s", email));
 		return usersList.size() == 1;
 	}
 
