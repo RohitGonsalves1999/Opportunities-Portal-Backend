@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,8 +57,8 @@ public class JobController {
 		
 	}
 	
-	@PutMapping("/JobDescription")
-	public  JobDescriptionWithSkills updateJobDescription(@RequestBody JobDescriptionWithSkills desc) {
+	@PostMapping("/JobDescription/update")
+	public JobDescriptionWithSkills updateJobDescription(@RequestBody JobDescriptionWithSkills desc) {
 		log.debug("Update: %d", desc.toString());
 		return jobsService.updateJobDescriptionWithSkills(desc);
 	}
