@@ -82,6 +82,7 @@ public class MobileProviderSignInController {
 				userId = userRepo.saveUserDetails(user);
 			} else {
 				userId = userRepo.getUserById(sessionUser.getEmail()).getId();
+				userRepo.saveUserTokenByEmail(result, sessionUser.getEmail());
 			}
 			
 			SessionUser sessionUser2 = new SessionUser(userId, sessionUser.getEmail(), result);

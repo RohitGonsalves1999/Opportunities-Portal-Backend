@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -34,10 +35,9 @@ import com.accolite.opportunitiesportal.jobs.service.JobAttributeService;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 import com.accolite.opportunitiesportal.testutils.PojoTestUtils;
 
-import junit.framework.Assert;
+
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
 public class OpportunitiesPortalApplicationTests {
 	
 	public RestTemplate template = new RestTemplate();

@@ -10,10 +10,14 @@ import com.accolite.opportunitiesportal.jobs.dao.JobsDao;
 import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobsService {
 	
 	@Autowired

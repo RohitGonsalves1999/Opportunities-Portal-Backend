@@ -12,11 +12,15 @@ import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 import com.accolite.opportunitiesportal.jobs.service.JobAttributeService;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/jobs")
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobAttributesController {
 	
 	

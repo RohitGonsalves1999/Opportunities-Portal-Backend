@@ -10,10 +10,14 @@ import com.accolite.opportunitiesportal.jobs.dao.JobsAttributeDao;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.DropDownItem;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobAttributeService {
 
 	

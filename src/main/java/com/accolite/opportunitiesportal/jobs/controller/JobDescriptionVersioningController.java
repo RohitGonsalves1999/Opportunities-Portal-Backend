@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.service.JobsService;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @RestController
 @RequestMapping("/api/jobs")
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobDescriptionVersioningController {
 	
 	@Autowired

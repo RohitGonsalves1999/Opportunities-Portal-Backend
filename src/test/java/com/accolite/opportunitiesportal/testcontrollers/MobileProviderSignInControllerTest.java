@@ -2,11 +2,12 @@ package com.accolite.opportunitiesportal.testcontrollers;
 
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestComponent;
 
@@ -16,7 +17,7 @@ import com.accolite.opportunitiesportal.auth.model.SessionUser;
 import com.accolite.opportunitiesportal.auth.model.UserDetails;
 import com.accolite.opportunitiesportal.auth.repository.UserRepository;
 
-import junit.framework.Assert;
+
 
 @SpringBootTest
 @TestComponent

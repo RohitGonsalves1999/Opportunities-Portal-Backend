@@ -14,10 +14,15 @@ import com.accolite.opportunitiesportal.jobs.model.JobDescription;
 import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
 
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class JobsDao {
 
 	@Autowired
@@ -79,12 +84,12 @@ public class JobsDao {
 		resultList = jobList.stream().map(job -> {
 			JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
 			descriptionWithSkills.setJobDescription(job);
-			logger.info(String.format("Id: %d", job.getId()));
+			log.info(String.format("Id: %d", job.getId()));
 			descriptionWithSkills.setSkillList(jobsRepository.getVersionSkillListById(job.getId()));
 			return descriptionWithSkills;
 		}).collect(Collectors.toList());
 		log.debug(String.format("Jobdescriptions: %s", resultList.toString()));
-		log.debug("Success");
+		log.debug("Success in Retrieving");
 		return resultList;
 	}
 	
