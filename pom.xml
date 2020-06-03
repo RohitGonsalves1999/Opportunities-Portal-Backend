@@ -47,7 +47,7 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
-        <junit.version>4.12</junit.version>
+		<junit.version>4.12</junit.version>
 	</properties>
 
 	<dependencies>
@@ -69,7 +69,7 @@
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>	
+			<artifactId>postgresql</artifactId>
 		</dependency>
 
 
@@ -102,17 +102,17 @@
 
 		<!-- Test -->
 		<dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
-        </dependency>
-        <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.6.0</version>
-        </dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.6.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API -->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>5.6.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.cucumber</groupId>
@@ -145,6 +145,12 @@
 			<groupId>com.openpojo</groupId>
 			<artifactId>openpojo</artifactId>
 			<version>0.8.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
 		</dependency>
 
 		<!-- Google Client Dependencies -->
@@ -189,9 +195,9 @@
 	<build>
 		<plugins>
 			<plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
-            </plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.0</version>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

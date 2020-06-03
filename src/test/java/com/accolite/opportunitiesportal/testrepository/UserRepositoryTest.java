@@ -68,11 +68,6 @@ class UserRepositoryTest {
 	}
 
 	@Test
-	void testSaveUserDetails() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	void testSaveUserTokenByEmail() {
 		when(template.update(Mockito.anyString(), Mockito.anyObject(), Mockito.anyObject())).thenReturn(1);
 		Assert.assertEquals(true, repo.saveUserTokenByEmail(user.getAuthToken(), user.getEmail()));
