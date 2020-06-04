@@ -17,10 +17,12 @@ import com.accolite.opportunitiesportal.auth.queries.UserQueries;
 import com.accolite.opportunitiesportal.auth.rowmapper.UserDetailsRowMapper;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Repository
 @Slf4j
+@AllArgsConstructor
 public class UserRepository {
 	
 	@Autowired

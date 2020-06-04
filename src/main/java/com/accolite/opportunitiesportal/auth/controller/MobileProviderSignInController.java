@@ -1,6 +1,5 @@
 package com.accolite.opportunitiesportal.auth.controller;
 
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -58,6 +57,10 @@ public class MobileProviderSignInController {
 			
 			String logMsg = String.format("IDToken: %s  ClientId: %s", sessionUser.getAuthToken(), clientId);
 			logger.info(logMsg);
+			
+			if (!(sessionUser.getEmail().contains("@accoliteindia.com"))) {
+				throw new GeneralSecurityException();
+			}
 
 			logMsg = String.format("User: %s", sessionUser.toString());
 			logger.info(logMsg);
@@ -71,9 +74,7 @@ public class MobileProviderSignInController {
 			} else {
 				logger.error("Invalid ID token.");
 			}
-			if (!(sessionUser.getEmail().contains("@accoliteindia.com"))) {
-				throw new GeneralSecurityException();
-			}
+			
 
 			String result = sessionCrypt.encrypt(sessionUser.getEmail());
 			UserDetails user = new UserDetails(0, sessionUser.getEmail(), sessionUser.getName(), result);
@@ -90,10 +91,8 @@ public class MobileProviderSignInController {
 			logger.debug(msg);
 			return sessionUser2;
 
-		} catch (IOException e) {
-			logger.error(e.toString());
-			return new SessionUser(-1, "", "");
-		} catch (Exception e) {
+		}
+		 catch (Exception e) {
 
 			logger.error("Exception while completing OAuth 2 connection: ", e);
 			return new SessionUser(-1, "", "");

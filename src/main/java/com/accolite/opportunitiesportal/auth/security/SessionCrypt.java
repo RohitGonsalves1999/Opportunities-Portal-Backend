@@ -26,7 +26,7 @@ public class SessionCrypt {
             String encryptedSession = DatatypeConverter.printHexBinary(aes.doFinal(bytes));
             String signature = calculateSignature(bytes).toUpperCase();
             return encryptedSession + signature;
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
         	log.error(e.toString());
 		}
     	catch (Exception e) {
@@ -69,7 +69,7 @@ public class SessionCrypt {
         } catch (Exception e) {
             log.error("Can't calculate signature", e);
         }
-        return null;
+        return "";
     }
 }
 

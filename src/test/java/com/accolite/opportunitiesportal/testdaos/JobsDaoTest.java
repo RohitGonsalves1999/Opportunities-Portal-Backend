@@ -108,7 +108,7 @@ class JobsDaoTest {
 	@Test
 	void testSaveJobDescription() {
 		when(repo.saveJobdescription(jobDesc)).thenReturn(1);
-		Assert.assertEquals(dao.saveJobDescription(jobDesc), 1);
+		Assert.assertEquals(1, dao.saveJobDescription(jobDesc));
 	}
 
 	@Test

@@ -69,9 +69,9 @@ public class OpportunitiesPortalApplicationTests {
 	private List<JobDescriptionWithSkills> jdList = Arrays.asList(new JobDescriptionWithSkills[] {jdWithSkills});
 	
 
-	@Test
-	void contextLoads() {
-	}
+//	@Test
+//	void contextLoads() {
+//	}
 	
 	
 	@Test

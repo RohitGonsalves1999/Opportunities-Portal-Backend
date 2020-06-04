@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.accolite.opportunitiesportal.auth.repository.UserRepository;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
 
@@ -27,6 +28,7 @@ class JobsRepositoryTestActual {
 	
 	JobsRepository repo = new JobsRepository(getJdbcTemplate());
 
+	UserRepository userRepo = new UserRepository(getJdbcTemplate());
 	@Test
 	void testFindAllJobDescriptions() {
 		Assert.assertTrue(repo.findAllJobDescriptions().size() > 0);
@@ -71,6 +73,12 @@ class JobsRepositoryTestActual {
 	@Test
 	void testGetItemList() {
 		Assert.assertTrue(repo.getItemList(JobsConstants.LOCATION).size() > 0);
+	}
+	
+	@Test
+	public void testUserExistsWithEmail()
+	{
+		Assert.assertEquals(true, userRepo.isUserWithEmailPresent("rohit.michaelgonsalves@accoliteindia.com"));
 	}
 	
 	
