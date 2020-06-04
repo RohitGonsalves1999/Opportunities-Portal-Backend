@@ -14,15 +14,38 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
+/**
+ * The Class JobsService.
+ */
 @Service
+
+/** The Constant log. */
 @Slf4j
+
+/**
+ * Instantiates a new jobs service.
+ *
+ * @param jobsDao the jobs dao
+ */
 @AllArgsConstructor
+
+/**
+ * Instantiates a new jobs service.
+ */
 @NoArgsConstructor
 public class JobsService {
 	
+	/** The jobs dao. */
 	@Autowired
 	JobsDao jobsDao;
 	
+	/**
+	 * Adds the job description.
+	 *
+	 * @param desc the JobDescription
+	 * @return the job description with skills
+	 */
 	public JobDescriptionWithSkills addJobDescription(JobDescriptionWithSkills desc) {
 		log.debug("Add JobDescription : %s", desc.toString());
 		int id;
@@ -37,6 +60,12 @@ public class JobsService {
 	}
 
 
+	/**
+	 * Find job description by id.
+	 *
+	 * @param id the JobId
+	 * @return the job description with skills
+	 */
 	public JobDescriptionWithSkills findJobDescriptionbyId(int id) {
 		log.debug("find JobDescription : %d", id);
 		JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
@@ -47,6 +76,12 @@ public class JobsService {
 		return descriptionWithSkills;
 	}
 	
+	/**
+	 * Find job description version by id.
+	 *
+	 * @param id the id
+	 * @return the job description with skills
+	 */
 	public JobDescriptionWithSkills findJobDescriptionVersionById(int id) {
 		log.debug("find JobDescription version : %d", id);
 		JobDescriptionWithSkills descriptionWithSkills = new JobDescriptionWithSkills();
@@ -58,18 +93,35 @@ public class JobsService {
 	}
 
 
+	/**
+	 * Gets the all job descriptions.
+	 *
+	 * @return the all job descriptions
+	 */
 	public List<JobDescriptionWithSkills> getAllJobDescriptions() {
 		log.debug("Find all JobDescriptions");
 		return jobsDao.getAllJobDescriptions();
 	
 	}
 	
+	/**
+	 * Gets the all job descrption versions.
+	 *
+	 * @param jobId the job id
+	 * @return the all job descrption versions
+	 */
 	public List<JobDescriptionWithSkills> getallJobDescrptionVersions(int jobId){
 		log.debug("Find all Versions JobDescriptions");
 		return jobsDao.getAllJobDescriptionsVersions(jobId);
 	}
 	
 	
+	/**
+	 * Update job description with skills.
+	 *
+	 * @param desc the desc
+	 * @return the job description with skills
+	 */
 	public JobDescriptionWithSkills updateJobDescriptionWithSkills(JobDescriptionWithSkills desc) {
 		log.debug("Update JobDescription: %s", desc.toString());
 		JobDescription oldDesc = jobsDao.findJobDescriptionbyId(desc.getJobDescription().getId());
@@ -85,6 +137,12 @@ public class JobsService {
 	}
 
 
+	/**
+	 * Delete job description.
+	 *
+	 * @param id the JobId
+	 * @return true, if successful
+	 */
 	public boolean deleteJobDescription(int id) {
 		log.debug("Delete JobDescriptionByID: %d", id);
 		jobsDao.deleteJobDescription(id);
@@ -92,6 +150,12 @@ public class JobsService {
 		
 	}
 	
+	/**
+	 * Resolve job description.
+	 *
+	 * @param id the JobId
+	 * @return true, if successful
+	 */
 	public boolean resolveJobDescription(int id) {
 		log.debug("Resolve JobDescriptionByID: %d", id);
 		jobsDao.resolveJobDescription(id);

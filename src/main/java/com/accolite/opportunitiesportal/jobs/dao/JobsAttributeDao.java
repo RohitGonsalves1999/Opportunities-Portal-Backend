@@ -19,16 +19,37 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class JobsAttributeDao.
+ */
 @Repository
+
+/** The Constant log. */
 @Slf4j
+
+/**
+ * Instantiates a new jobs attribute dao.
+ *
+ * @param jobsRepository the jobs repository
+ */
 @AllArgsConstructor
+
+/**
+ * Instantiates a new jobs attribute dao.
+ */
 @NoArgsConstructor
 public class JobsAttributeDao {
 	
+	/** The jobs repository. */
 	@Autowired
 	JobsRepository jobsRepository;
 	
 	
+	/**
+	 * Gets the Drop down Items attributes ListMap .
+	 *
+	 * @return the attributes
+	 */
 	public Map<String,List<DropDownItem>> getAttributes(){
 		Map<String, List<DropDownItem>> attributeMap = new HashMap<>();
 		
@@ -44,6 +65,11 @@ public class JobsAttributeDao {
 		return attributeMap;
 	}
 	
+	/**
+	 * Gets the attributes map.
+	 *
+	 * @return the attributes map
+	 */
 	public Map<String,Map<Integer, String>> getAttributesMap(){
 		Map<String, Map<Integer, String>> attributeMap = new HashMap<>();
 		
@@ -63,6 +89,11 @@ public class JobsAttributeDao {
 		return attributeMap;
 	}
 
+	/**
+	 * Gets the insight Statistics map.
+	 *
+	 * @return the insight map
+	 */
 	public Map<String, ChartDataObject> getInsightMap(){
 		
 		Map<String, ChartDataObject> chartMap = new HashMap<>();
@@ -78,6 +109,12 @@ public class JobsAttributeDao {
 	}
 	
 	
+	/**
+	 * Construct chart data object.
+	 *
+	 * @param objects the objects
+	 * @return the chart data object
+	 */
 	private ChartDataObject constructChartDataObject(List<ChartObject> objects) {
 		
 		List<Integer> values = new ArrayList<>();

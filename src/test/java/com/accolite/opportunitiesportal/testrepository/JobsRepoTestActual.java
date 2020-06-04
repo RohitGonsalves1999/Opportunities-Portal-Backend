@@ -23,9 +23,6 @@ import org.springframework.context.annotation.Import;
 @TestComponent
 class JobsRepositoryTestActual {
 	
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-	
 	JobsRepository repo = new JobsRepository(getJdbcTemplate());
 
 	UserRepository userRepo = new UserRepository(getJdbcTemplate());

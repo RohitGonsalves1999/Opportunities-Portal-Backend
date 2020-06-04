@@ -189,21 +189,13 @@
 			<artifactId>google-api-services-gmail</artifactId>
 			<version>v1-rev34-1.20.0</version>
 		</dependency>
-		
-		
-		<!-- Swagger -->
 
+
+		<!-- Swagger -->
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.6.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.6.1</version>
-			<scope>compile</scope>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.2.32</version>
 		</dependency>
 
 	</dependencies>

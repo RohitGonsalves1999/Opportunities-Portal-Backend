@@ -28,20 +28,34 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Value;
 
+/**
+ * The Class MobileProviderSignInController.
+ */
 @RestController
 @RequestMapping("/api/jobs")
 public class MobileProviderSignInController {
 
+	/** The Constant logger. */
 	private static final Logger logger = LoggerFactory.getLogger(MobileProviderSignInController.class);
 
+	/** The session crypt. */
 	private SessionCrypt sessionCrypt = new SessionCrypt();
 
+	/** The client id. */
 	@Value("${google.clientId}")
 	private String clientId = "343600838738-8qp1ko38besbjlirc7ov3ca908s47g4s.apps.googleusercontent.com";
 
+	/** The user repo. */
 	@Autowired
 	UserRepository userRepo;
 
+	/**
+	 * Oauth 2 callback.
+	 *
+	 * @param providerId the provider id (Namely Google)
+	 * @param sessionUser the The User details Object
+	 * @return the session user Object with token and id
+	 */
 	@PostMapping(value = "/signin/{providerId}")
 	public SessionUser oauth2Callback(@PathVariable String providerId, @RequestBody UserDetails sessionUser) {
 
@@ -99,6 +113,12 @@ public class MobileProviderSignInController {
 		}
 	}
 
+	/**
+	 * Verify session.
+	 *
+	 * @param authToken the auth token
+	 * @return the session status
+	 */
 	@PostMapping("/verifySession")
 	public SessionStatus verifySession(@RequestBody String authToken) {
 

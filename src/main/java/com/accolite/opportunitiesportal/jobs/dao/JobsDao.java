@@ -19,45 +19,94 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * The Class JobsDao.
+ */
 @Repository
+
 @Slf4j
+
+/**
+ * Instantiates a new jobs dao.
+ *
+ * @param jdbcTemplate the jdbc template
+ * @param jobsRepository the jobs repository
+ * @param logger the logger
+ */
 @AllArgsConstructor
+
+/**
+ * Instantiates a new jobs dao.
+ */
 @NoArgsConstructor
 public class JobsDao {
 
+	/** The jdbc template. */
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	/** The jobs repository. */
 	@Autowired
 	JobsRepository jobsRepository;
 	
+	/** The logger. */
 	Logger logger = LoggerFactory.getLogger(JobsDao.class);
 	
+	
 
-
+	/**
+	 * Save job description.
+	 *
+	 * @param jobDescription the job description
+	 * @return the Generated Id
+	 */
 	public int saveJobDescription(JobDescription jobDescription) {
 		log.info("Save JobDescription");
 		return jobsRepository.saveJobdescription(jobDescription);
 	}
 	
+	/**
+	 * Save job Description skills to the database.
+	 *
+	 * @param jobId the job id
+	 * @param skillList the skill list
+	 * @return the int
+	 */
 	public int saveJobSkills(int jobId, List<Integer> skillList) {
 		log.info(String.format("Save Skills: %s", skillList.toString()));
 		return jobsRepository.saveJobDescriptionSkills(jobId, skillList);
 	}
 
 
+	/**
+	 * Find job description by id.
+	 *
+	 * @param id the Jobid
+	 * @return the job description
+	 */
 	public JobDescription findJobDescriptionbyId(int id) {
 		log.debug(String.format("Find JobDescription By Id: %d", id));
 		return jobsRepository.findById(id);
 	}
 	
 	
+	/**
+	 * Find job description version by id.
+	 *
+	 * @param id the Jobid
+	 * @return the job description
+	 */
 	public JobDescription findJobDescriptionVersionbyId(int id) {
 		log.debug(String.format("Find JobDescription By Id: %d", id));
 		return jobsRepository.findVersionById(id);
 	}
 	
 	
+	/**
+	 * Gets the all job descriptions.
+	 *
+	 * @return the all job descriptions
+	 */
 	public List<JobDescriptionWithSkills> getAllJobDescriptions() {
 		log.debug("Find All JobDescriptions");
 		List<JobDescriptionWithSkills> resultList;
@@ -75,6 +124,12 @@ public class JobsDao {
 		return resultList;
 	}
 	
+	/**
+	 * Gets the all job descriptions versions.
+	 *
+	 * @param jobId the job id
+	 * @return the all job descriptions versions
+	 */
 	public List<JobDescriptionWithSkills> getAllJobDescriptionsVersions(int jobId) {
 		log.debug("Find All JobDescriptions Versions");
 		List<JobDescriptionWithSkills> resultList;
@@ -94,11 +149,23 @@ public class JobsDao {
 	}
 	
 	
+	/**
+	 * Gets the skills by id.
+	 *
+	 * @param id the id
+	 * @return the skills by id
+	 */
 	public List<Integer> getSkillsById (int id){
 		log.debug("Find Skills By Id: %d", id);
 		return jobsRepository.getSkillListById(id);
 	}
 	
+	/**
+	 * Gets the version skills by id.
+	 *
+	 * @param id the id
+	 * @return the version skills by id
+	 */
 	public List<Integer> getVersionSkillsById(int id){
 		log.debug("Find Version Skills By Id: %d", id);
 		return jobsRepository.getVersionSkillListById(id);
@@ -106,6 +173,12 @@ public class JobsDao {
 	
 
 	
+	/**
+	 * Update job description.
+	 *
+	 * @param desc the desc
+	 * @return true, if successful
+	 */
 	public boolean updateJobDescription(JobDescriptionWithSkills desc) {
 		log.debug("UpdateJobdescription %s", desc.toString());
 		JobDescription oldJd = jobsRepository.findById(desc.getJobDescription().getId());
@@ -119,6 +192,12 @@ public class JobsDao {
 	}
 
 
+	/**
+	 * Delete job description.
+	 *
+	 * @param id the id
+	 * @return true, if successful
+	 */
 	public boolean deleteJobDescription(int id) {
 		log.debug("Delete JobDescription: %d",id);
 		jobsRepository.deleteJobDescription(id);
@@ -129,6 +208,12 @@ public class JobsDao {
 	}
 	
 	
+	/**
+	 * Resolve job description.
+	 *
+	 * @param id the id
+	 * @return true, if successful
+	 */
 	public boolean resolveJobDescription(int id) {
 		log.debug("Resolve JobDescription: %d",id);
 		jobsRepository.deleteJobDescription(id);
