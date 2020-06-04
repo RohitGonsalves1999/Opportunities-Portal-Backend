@@ -2,6 +2,11 @@ package com.accolite.opportunitiesportal.testrepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +15,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.accolite.opportunitiesportal.auth.model.UserDetails;
 import com.accolite.opportunitiesportal.auth.repository.UserRepository;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
+import com.accolite.opportunitiesportal.jobs.model.JobDescription;
+import com.accolite.opportunitiesportal.jobs.model.JobDescriptionWithSkills;
 import com.accolite.opportunitiesportal.jobs.repository.JobsRepository;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -23,9 +31,17 @@ import org.springframework.context.annotation.Import;
 @TestComponent
 class JobsRepositoryTestActual {
 	
+	private JobDescription jobDesc = new JobDescription(9, 1, 1, 1, 1, 10, new Date(), 1, null, 0, "BEST JOB EVER");
+	
+	private List<Integer> skillList = Arrays.asList(new Integer[] {1,2,3,4,5});
+	
+	private JobDescriptionWithSkills jdWithSkills= new JobDescriptionWithSkills(jobDesc, skillList);
+	
 	JobsRepository repo = new JobsRepository(getJdbcTemplate());
 
 	UserRepository userRepo = new UserRepository(getJdbcTemplate());
+	
+	UserDetails user = new UserDetails(1, String.valueOf(new Random().nextInt()) + "@accoliteindia.com", "Rohit Gonsalves", ""  + new Random().nextInt());
 	@Test
 	void testFindAllJobDescriptions() {
 		Assert.assertTrue(repo.findAllJobDescriptions().size() > 0);
@@ -72,6 +88,21 @@ class JobsRepositoryTestActual {
 		Assert.assertTrue(repo.getItemList(JobsConstants.LOCATION).size() > 0);
 	}
 	
+	@Test
+	void testInsertJobDescriptionVersion() {
+		Assert.assertTrue(0 < repo.saveJobdescriptionVersion(jobDesc));
+	}
+	
+	
+	@Test
+	void testInsertJobDescription() {
+		Assert.assertTrue(0 < repo.saveJobdescription(jobDesc));
+	}
+	
+	@Test
+	void testInsertUser() {
+		Assert.assertTrue(0 < userRepo.saveUserDetails(user));
+	}
 	@Test
 	public void testUserExistsWithEmail()
 	{

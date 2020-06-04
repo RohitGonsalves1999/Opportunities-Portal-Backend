@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 
+import com.accolite.opportunitiesportal.auth.model.UserDetails;
 import com.accolite.opportunitiesportal.jobs.constants.JobsConstants;
 import com.accolite.opportunitiesportal.jobs.model.ChartDataObject;
 import com.accolite.opportunitiesportal.jobs.model.ChartObject;
@@ -61,6 +63,8 @@ class JobsRepositoryTest {
 	private List<Integer> skillList = Arrays.asList(new Integer[] {1,2,3,4,5});
 	
 	private JobDescriptionWithSkills jdWithSkills= new JobDescriptionWithSkills(jobDesc, skillList);
+	
+	
 	
 	private List<JobDescriptionWithSkills> jdList = Arrays.asList(new JobDescriptionWithSkills[] {jdWithSkills});
 	
