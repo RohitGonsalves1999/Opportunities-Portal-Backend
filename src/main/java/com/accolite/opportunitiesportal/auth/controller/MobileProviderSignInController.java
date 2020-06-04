@@ -123,7 +123,7 @@ public class MobileProviderSignInController {
 	public SessionStatus verifySession(@RequestBody String authToken) {
 
 		String messge;
-		if (userRepo.isUserWithTokenPresent(authToken)) {
+		if (authToken != null && authToken != "" && userRepo.isUserWithTokenPresent(authToken)) {
 			SessionStatus success = new SessionStatus(true, 200, authToken);
 			messge = String.format("Session Verification Successful: %s", success.toString());
 			logger.debug(messge);
